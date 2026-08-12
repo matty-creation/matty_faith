@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pastel Clay Login</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap');
+
+    :root {
+      --bg-color: #f3e8ff;          /* Soft Lavender */
+      --card-bg: #fcedf7;           /* Light Pastel Pink */
+      --input-bg: #e2f0d9;          /* Soft Mint Green */
+      --btn-bg: #ffd6cc;            /* Soft Pastel Coral */
+      --text-color: #5c4b69;        /* Deep Pastel Purple/Gray */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Fredoka', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--text-color);
+    }
+
+    /* Clay Card Box Container */
+    .clay-card {
+      background-color: var(--card-bg);
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 35px;
+      position: relative;
+      overflow: hidden; /* Clips texture layer inside rounded corners */
+      
+      /* Claymorphism 3D Depth Shadows */
+      box-shadow: 
+        12px 12px 24px rgba(185, 155, 205, 0.45),
+        inset -8px -8px 16px rgba(220, 180, 210, 0.65),
+        inset 8px 8px 16px rgba(255, 255, 255, 0.9);
+      
+      text-align: center;
+    }
+
+    /* Rough Texture Overlay Restricted to the Card */
+    .clay-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: inherit;
+      filter: url('#rough-clay-filter');
+      opacity: 0.25;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Ensure content stays clickable and visible above texture */
+    .clay-card > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    .clay-card h2 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .clay-card p {
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+      opacity: 0.85;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      margin-left: 0.5rem;
+      font-weight: 600;
+    }
+
+    /* Pressed Clay Inputs */
+    .clay-input {
+      width: 100%;
+      padding: 0.9rem 1.2rem;
+      border: none;
+      outline: none;
+      background-color: var(--input-bg);
+      border-radius: 20px;
+      font-size: 1rem;
+      color: var(--text-color);
+      
+      box-shadow: 
+        inset 4px 4px 8px rgba(160, 190, 150, 0.55),
+        inset -4px -4px 8px rgba(255, 255, 255, 0.85);
+      
+      transition: all 0.2s ease;
+    }
+
+    .clay-input:focus {
+      outline: 2px solid #b5d8a6;
+    }
+
+    /* Inflated Clay Button */
+    .clay-button {
+      width: 100%;
+      padding: 1rem;
+      border: none;
+      background-color: var(--btn-bg);
+      color: var(--text-color);
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 25px;
+      cursor: pointer;
+      margin-top: 1rem;
+      
+      box-shadow: 
+        6px 6px 12px rgba(215, 150, 135, 0.45),
+        inset -5px -5px 10px rgba(225, 140, 125, 0.65),
+        inset 5px 5px 10px rgba(255, 255, 255, 0.9);
+      
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .clay-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .clay-button:active {
+      transform: translateY(2px);
+      box-shadow: 
+        2px 2px 5px rgba(215, 150, 135, 0.45),
+        inset -2px -2px 5px rgba(225, 140, 125, 0.65),
+        inset 2px 2px 5px rgba(255, 255, 255, 0.9);
+    }
+
+    .svg-filter {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Rough Clay SVG Filter Definition -->
+  <svg class="svg-filter">
+    <filter id="rough-clay-filter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" result="noise" />
+      <feDiffuseLighting in="noise" lighting-color="#ffffff" surfaceScale="2" result="light">
+        <feDistantLight azimuth="60" elevation="50" />
+      </feDiffuseLighting>
+      <feBlend mode="multiply" in="SourceGraphic" in2="light" />
+    </filter>
+  </svg>
+
+  <div class="clay-card">
+    <h2>Welcome Back!</h2>
+    <p>Please enter your details to log in</p>
+    
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" class="clay-input" placeholder="hello@example.com" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" class="clay-input" placeholder="••••••••" required>
+      </div>
+
+      <button type="submit" class="clay-button">Log In</button>
+    </form>
+  </div>
+
+  <!-- Redirection Script -->
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevents real page reload
+      window.location.href = 'dashboard.html'; // Navigates to dashboard
+    });
+  </script>
+
+</body>
+</html>

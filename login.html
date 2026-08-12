@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pastel Clay Login</title>
+  <style>
+    /* Google Font for a soft, friendly look */
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap');
+
+    :root {
+      --bg-color: #f3e8ff;          /* Soft Lavender */
+      --card-bg: #fcedf7;           /* Light Pastel Pink */
+      --input-bg: #e2f0d9;          /* Soft Mint Green */
+      --btn-bg: #ffd6cc;            /* Soft Pastel Coral */
+      --text-color: #5c4b69;        /* Deep Pastel Purple/Gray */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Fredoka', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--text-color);
+    }
+
+    /* Clay Card Styling */
+    .clay-card {
+      background-color: var(--card-bg);
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 35px;
+      
+      /* The Claymorphism Shadow Recipe */
+      box-shadow: 
+        12px 12px 24px rgba(185, 155, 205, 0.4),            /* Outer drop shadow */
+        inset -8px -8px 16px rgba(220, 180, 210, 0.6),      /* Inner dark shadow (bottom-right) */
+        inset 8px 8px 16px rgba(255, 255, 255, 0.9);        /* Inner light highlight (top-left) */
+      
+      text-align: center;
+    }
+
+    .clay-card h2 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .clay-card p {
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+      opacity: 0.8;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      margin-left: 0.5rem;
+      font-weight: 600;
+    }
+
+    /* Clay Input Styling (Inset Clay Effect) */
+    .clay-input {
+      width: 100%;
+      padding: 0.9rem 1.2rem;
+      border: none;
+      outline: none;
+      background-color: var(--input-bg);
+      border-radius: 20px;
+      font-size: 1rem;
+      color: var(--text-color);
+      
+      /* Inset shadows create a "pressed in" clay look */
+      box-shadow: 
+        inset 4px 4px 8px rgba(160, 190, 150, 0.5),
+        inset -4px -4px 8px rgba(255, 255, 255, 0.8);
+      
+      transition: all 0.2s ease;
+    }
+
+    .clay-input:focus {
+      outline: 2px solid #b5d8a6;
+    }
+
+    /* Clay Button Styling */
+    .clay-button {
+      width: 100%;
+      padding: 1rem;
+      border: none;
+      background-color: var(--btn-bg);
+      color: var(--text-color);
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 25px;
+      cursor: pointer;
+      margin-top: 1rem;
+      
+      /* Inflated Clay Shadows */
+      box-shadow: 
+        6px 6px 12px rgba(215, 150, 135, 0.4),
+        inset -5px -5px 10px rgba(225, 140, 125, 0.6),
+        inset 5px 5px 10px rgba(255, 255, 255, 0.9);
+      
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    /* Hover and Click (Press) squish animation */
+    .clay-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .clay-button:active {
+      transform: translateY(2px);
+      box-shadow: 
+        2px 2px 5px rgba(215, 150, 135, 0.4),
+        inset -2px -2px 5px rgba(225, 140, 125, 0.6),
+        inset 2px 2px 5px rgba(255, 255, 255, 0.9);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="clay-card">
+    <h2>Welcome Back!</h2>
+    <p>Please enter your details to log in</p>
+    
+    <form>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" class="clay-input" placeholder="hello@example.com" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" class="clay-input" placeholder="••••••••" required>
+      </div>
+
+      <button type="submit" class="clay-button">Log In</button>
+    </form>
+  </div>
+
+</body>
+</html>
