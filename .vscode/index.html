@@ -3,24 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pastel Clay Auth</title>
+  <title>TimeTracker - Sign In</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
     :root {
-      --bg-color: #f3e8ff;          /* Soft Lavender */
-      --card-bg: #fcedf7;           /* Light Pastel Pink */
-      --input-bg: #e2f0d9;          /* Soft Mint Green */
-      --btn-bg: #ffd6cc;            /* Soft Pastel Coral */
-      --text-color: #5c4b69;        /* Deep Pastel Purple/Gray */
-      --error-color: #d9534f;       /* Soft Red */
+      --bg-color: #f4f2ee;          /* Warm Linen */
+      --card-bg: #ffffff;           /* Pure White */
+      --primary: #1b2a4a;           /* Executive Deep Navy */
+      --primary-hover: #111c33;     
+      --accent: #b8860b;            /* Classic Gold / Bronze */
+      --accent-light: #faf6ed;      
+      --text: #1c1917;              /* Deep Charcoal */
+      --text-muted: #78716c;        
+      --border: #e2dfd7;            
+      --danger: #b91c1c;            /* Classic Crimson */
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Fredoka', sans-serif;
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
     body {
@@ -29,94 +33,82 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      color: var(--text-color);
+      color: var(--text);
       padding: 2rem 1rem;
     }
 
-    .clay-card {
+    .classic-card {
       background-color: var(--card-bg);
-      padding: 2.5rem;
+      padding: 3rem 2.5rem;
       width: 100%;
-      max-width: 460px;
-      border-radius: 35px;
-      position: relative;
-      overflow: hidden;
-      
-      box-shadow: 
-        12px 12px 24px rgba(185, 155, 205, 0.45),
-        inset -8px -8px 16px rgba(220, 180, 210, 0.65),
-        inset 8px 8px 16px rgba(255, 255, 255, 0.9);
-      
+      max-width: 480px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 25px rgba(27, 42, 74, 0.06);
+      border-top: 4px solid var(--accent);
+    }
+
+    .brand-header {
       text-align: center;
+      margin-bottom: 2rem;
     }
 
-    .clay-card::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      border-radius: inherit;
-      filter: url('#rough-clay-filter');
-      opacity: 0.25;
-      pointer-events: none;
-      z-index: 1;
+    .brand-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--primary);
+      letter-spacing: -0.5px;
     }
 
-    .clay-card > * {
-      position: relative;
-      z-index: 2;
+    .brand-header p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 0.3rem;
     }
 
     .tab-container {
       display: flex;
-      background-color: rgba(255, 255, 255, 0.3);
-      padding: 6px;
-      border-radius: 20px;
-      margin-bottom: 1.5rem;
-      box-shadow: inset 2px 2px 5px rgba(185, 155, 205, 0.2);
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 1.8rem;
     }
 
     .tab-btn {
       flex: 1;
-      padding: 0.6rem;
+      padding: 0.75rem;
       border: none;
       background: transparent;
-      color: var(--text-color);
+      color: var(--text-muted);
       font-weight: 600;
-      font-size: 1rem;
-      border-radius: 15px;
+      font-size: 0.95rem;
       cursor: pointer;
       transition: all 0.2s ease;
+      position: relative;
     }
 
     .tab-btn.active {
-      background-color: var(--btn-bg);
-      box-shadow: 
-        3px 3px 6px rgba(215, 150, 135, 0.3),
-        inset -2px -2px 4px rgba(225, 140, 125, 0.4),
-        inset 2px 2px 4px rgba(255, 255, 255, 0.8);
+      color: var(--primary);
     }
 
-    .clay-card h2 {
-      font-size: 2rem;
-      margin-bottom: 0.3rem;
-    }
-
-    .clay-card p.subtitle {
-      font-size: 0.95rem;
-      margin-bottom: 1.2rem;
-      opacity: 0.85;
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: var(--accent);
     }
 
     .alert-msg {
       display: none;
-      padding: 0.6rem 1rem;
-      border-radius: 15px;
+      padding: 0.75rem 1rem;
+      border-radius: 4px;
       font-size: 0.85rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-      background-color: #ffd2d2;
-      color: var(--error-color);
-      box-shadow: inset 2px 2px 4px rgba(217, 83, 79, 0.2);
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      background-color: #fef2f2;
+      border: 1px solid #fecaca;
+      color: var(--danger);
     }
 
     .auth-form {
@@ -133,7 +125,7 @@
     }
 
     .form-group {
-      margin-bottom: 1.2rem;
+      margin-bottom: 1.25rem;
       text-align: left;
       flex: 1;
     }
@@ -141,177 +133,152 @@
     .form-group label {
       display: block;
       margin-bottom: 0.4rem;
-      margin-left: 0.5rem;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
-    .clay-input {
+    .classic-input {
       width: 100%;
-      padding: 0.8rem 1.1rem;
-      border: none;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
       outline: none;
-      background-color: var(--input-bg);
-      border-radius: 20px;
+      background-color: #fafafa;
+      border-radius: 4px;
       font-size: 0.95rem;
-      color: var(--text-color);
-      
-      box-shadow: 
-        inset 4px 4px 8px rgba(160, 190, 150, 0.55),
-        inset -4px -4px 8px rgba(255, 255, 255, 0.85);
-      
-      transition: all 0.2s ease;
+      color: var(--text);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .clay-input:focus {
-      outline: 2px solid #b5d8a6;
+    .classic-input:focus {
+      border-color: var(--accent);
+      background-color: var(--card-bg);
+      box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.12);
     }
 
-    .clay-button {
+    .classic-button {
       width: 100%;
-      padding: 0.9rem;
+      padding: 0.85rem;
       border: none;
-      background-color: var(--btn-bg);
-      color: var(--text-color);
-      font-size: 1.1rem;
+      background-color: var(--primary);
+      color: #ffffff;
+      font-size: 0.95rem;
       font-weight: 600;
-      border-radius: 25px;
+      border-radius: 4px;
       cursor: pointer;
       margin-top: 0.5rem;
-      
-      box-shadow: 
-        6px 6px 12px rgba(215, 150, 135, 0.45),
-        inset -5px -5px 10px rgba(225, 140, 125, 0.65),
-        inset 5px 5px 10px rgba(255, 255, 255, 0.9);
-      
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      letter-spacing: 0.5px;
+      transition: background-color 0.2s ease;
     }
 
-    .clay-button:hover {
-      transform: translateY(-2px);
-    }
-
-    .clay-button:active {
-      transform: translateY(2px);
-      box-shadow: 
-        2px 2px 5px rgba(215, 150, 135, 0.45),
-        inset -2px -2px 5px rgba(225, 140, 125, 0.65),
-        inset 2px 2px 5px rgba(255, 255, 255, 0.9);
+    .classic-button:hover {
+      background-color: var(--primary-hover);
     }
 
     .toggle-text {
       margin-top: 1.5rem;
-      font-size: 0.9rem;
-      color: var(--text-color);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-align: center;
     }
 
     .toggle-text a {
-      color: #7b5294;
+      color: var(--accent);
       font-weight: 600;
-      text-decoration: underline;
+      text-decoration: none;
       cursor: pointer;
     }
 
-    .svg-filter { display: none; }
+    .toggle-text a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
 
-  <svg class="svg-filter">
-    <filter id="rough-clay-filter">
-      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" result="noise" />
-      <feDiffuseLighting in="noise" lighting-color="#ffffff" surfaceScale="2" result="light">
-        <feDistantLight azimuth="60" elevation="50" />
-      </feDiffuseLighting>
-      <feBlend mode="multiply" in="SourceGraphic" in2="light" />
-    </filter>
-  </svg>
-
-  <div class="clay-card">
+  <div class="classic-card">
+    <div class="brand-header">
+      <h1>TIMETRACKER</h1>
+      <p>Workforce Attendance Management</p>
+    </div>
     
     <div class="tab-container">
-      <button type="button" class="tab-btn active" id="loginTab">Log In</button>
-      <button type="button" class="tab-btn" id="signupTab">Sign Up</button>
+      <button type="button" class="tab-btn active" id="loginTab">Sign In</button>
+      <button type="button" class="tab-btn" id="signupTab">Register</button>
     </div>
 
     <div id="alertBox" class="alert-msg"></div>
 
     <!-- LOG IN FORM -->
     <form id="loginForm" class="auth-form active">
-      <h2>Welcome Back!</h2>
-      <p class="subtitle">Please enter your details to log in</p>
-
       <div class="form-group">
-        <label for="login-email">Email</label>
-        <input type="email" id="login-email" class="clay-input" placeholder="hello@example.com" required>
+        <label for="login-email">Email Address</label>
+        <input type="email" id="login-email" class="classic-input" placeholder="name@company.com" required>
       </div>
       
       <div class="form-group">
         <label for="login-password">Password</label>
-        <input type="password" id="login-password" class="clay-input" placeholder="••••••••" required>
+        <input type="password" id="login-password" class="classic-input" placeholder="••••••••" required>
       </div>
 
-      <button type="submit" class="clay-button">Log In</button>
+      <button type="submit" class="classic-button">Sign In to Account</button>
 
       <p class="toggle-text">
-        Don't have an account yet? <a id="gotoSignup">Sign up here</a>
+        Need an account? <a id="gotoSignup">Register here</a>
       </p>
     </form>
 
     <!-- SIGN UP FORM -->
     <form id="signupForm" class="auth-form">
-      <h2>Create Account</h2>
-      <p class="subtitle">Please fill out your details to sign up</p>
-
       <div class="form-row">
         <div class="form-group">
           <label for="first-name">First Name</label>
-          <input type="text" id="first-name" class="clay-input" placeholder="Jane" required>
+          <input type="text" id="first-name" class="classic-input" placeholder="John" required>
         </div>
         <div class="form-group">
           <label for="last-name">Last Name</label>
-          <input type="text" id="last-name" class="clay-input" placeholder="Doe" required>
+          <input type="text" id="last-name" class="classic-input" placeholder="Doe" required>
         </div>
       </div>
 
       <div class="form-row">
         <div class="form-group">
-          <label for="phone">Phone Number</label>
-          <input type="tel" id="phone" class="clay-input" placeholder="+1 234 567 890" required>
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" class="classic-input" placeholder="+1 234 567 890" required>
         </div>
         <div class="form-group">
-          <label for="signup-email">Email</label>
-          <input type="email" id="signup-email" class="clay-input" placeholder="jane@example.com" required>
+          <label for="signup-email">Email Address</label>
+          <input type="email" id="signup-email" class="classic-input" placeholder="john@company.com" required>
         </div>
       </div>
 
       <div class="form-group">
         <label for="address">Address</label>
-        <input type="text" id="address" class="clay-input" placeholder="123 Pastel St, Claytown" required>
+        <input type="text" id="address" class="classic-input" placeholder="123 Corporate Ave" required>
       </div>
 
       <div class="form-row">
         <div class="form-group">
           <label for="signup-password">Password</label>
-          <input type="password" id="signup-password" class="clay-input" placeholder="••••••••" required>
+          <input type="password" id="signup-password" class="classic-input" placeholder="••••••••" required>
         </div>
         <div class="form-group">
           <label for="confirm-password">Confirm Password</label>
-          <input type="password" id="confirm-password" class="clay-input" placeholder="••••••••" required>
+          <input type="password" id="confirm-password" class="classic-input" placeholder="••••••••" required>
         </div>
       </div>
 
-      <button type="submit" class="clay-button">Sign Up</button>
+      <button type="submit" class="classic-button">Create Account</button>
 
       <p class="toggle-text">
-        Log in if you already have an account <a id="gotoLogin">here</a>
+        Already registered? <a id="gotoLogin">Sign in here</a>
       </p>
     </form>
-
   </div>
 
   <script>
-    // AUTO-LOGIN CHECK: Safe check prevents redirect loops
     try {
       const activeSession = JSON.parse(localStorage.getItem('activeUser'));
       if (activeSession && activeSession.email && activeSession.firstName) {
@@ -372,15 +339,13 @@
       const lastName = document.getElementById('last-name').value.trim();
 
       if (password !== confirmPass) {
-        showAlert("Passwords do not match!");
+        showAlert("Passwords do not match.");
         return;
       }
 
       const userData = { email, password, firstName, lastName };
-      
       localStorage.setItem(`user_${email}`, JSON.stringify(userData));
       localStorage.setItem('activeUser', JSON.stringify(userData));
-
       window.location.href = 'dashboard.html';
     });
 
@@ -391,11 +356,10 @@
 
       const email = document.getElementById('login-email').value.toLowerCase().trim();
       const password = document.getElementById('login-password').value;
-
       const storedUser = localStorage.getItem(`user_${email}`);
 
       if (!storedUser) {
-        showAlert("No account found with this email. Please sign up first!");
+        showAlert("No account found with this email. Please register first.");
         return;
       }
 
@@ -403,12 +367,12 @@
       try {
         userData = JSON.parse(storedUser);
       } catch(err) {
-        showAlert("Account data corrupted. Please sign up again.");
+        showAlert("Account data error. Please register again.");
         return;
       }
 
       if (userData.password !== password) {
-        showAlert("Incorrect password. Please try again!");
+        showAlert("Incorrect password. Please try again.");
         return;
       }
 

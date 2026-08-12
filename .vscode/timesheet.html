@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TimeTracker - Attendance Dashboard</title>
+  <title>TimeTracker - Employee Timesheet</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
@@ -17,7 +17,6 @@
       --text: #1c1917;              /* Deep Charcoal */
       --text-muted: #78716c;        
       --border: #e2dfd7;            
-      --success: #15803d;            /* Classic Forest Green */
       --danger: #b91c1c;            /* Classic Crimson */
     }
 
@@ -133,74 +132,39 @@
       text-decoration: none;
     }
 
-    /* Clock Hero Section */
-    .timecard-section {
+    /* Metric Summary Cards */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .summary-card {
       background-color: var(--card-bg);
-      padding: 2.5rem 2rem;
+      padding: 1.5rem;
       border: 1px solid var(--border);
       border-radius: 6px;
-      border-top: 4px solid var(--primary);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+      border-top: 3px solid var(--accent);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
     }
 
-    .live-clock-container h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
-      color: var(--primary);
-      margin-bottom: 0.2rem;
-    }
-
-    .live-clock-container p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-    }
-
-    .status-badge {
-      display: inline-block;
-      padding: 0.35rem 0.85rem;
-      border-radius: 4px;
-      font-weight: 600;
+    .summary-card h3 {
       font-size: 0.8rem;
-      margin-top: 0.75rem;
-      background-color: #fef2f2;
-      color: var(--danger);
-      border: 1px solid #fecaca;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
     }
 
-    .status-badge.working {
-      background-color: #f0fdf4;
-      color: var(--success);
-      border-color: #bbf7d0;
+    .summary-card .val {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
     }
 
-    .action-btn {
-      padding: 0.9rem 2.2rem;
-      font-size: 1rem;
-      font-weight: 600;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      color: #ffffff;
-      background-color: var(--success);
-      transition: background-color 0.2s ease;
-      letter-spacing: 0.5px;
-    }
-
-    .action-btn.clocked-in {
-      background-color: var(--danger);
-    }
-
-    .action-btn:hover {
-      opacity: 0.95;
-    }
-
-    /* History Table */
-    .history-section {
+    /* Timesheet Table Section */
+    .timesheet-section {
       background-color: var(--card-bg);
       padding: 2rem;
       border: 1px solid var(--border);
@@ -209,19 +173,43 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
     }
 
-    .history-section h2 {
+    .timesheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .timesheet-header h2 {
       font-family: 'Playfair Display', serif;
       font-size: 1.25rem;
       color: var(--primary);
-      margin-bottom: 1.25rem;
     }
 
-    .logs-table {
+    .classic-select {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border);
+      outline: none;
+      background-color: #fafafa;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .classic-select:focus {
+      border-color: var(--accent);
+    }
+
+    .timesheet-table {
       width: 100%;
       border-collapse: collapse;
     }
 
-    .logs-table th {
+    .timesheet-table th {
       text-align: left;
       padding: 0.85rem 1rem;
       font-size: 0.8rem;
@@ -232,18 +220,18 @@
       background-color: #fafafa;
     }
 
-    .logs-table td {
+    .timesheet-table td {
       padding: 1rem;
       font-size: 0.95rem;
       border-bottom: 1px solid var(--border);
       color: var(--text);
     }
 
-    .logs-table tr:hover td {
+    .timesheet-table tr:hover td {
       background-color: var(--accent-light);
     }
 
-    .no-records {
+    .empty-state {
       text-align: center;
       padding: 2.5rem;
       color: var(--text-muted);
@@ -256,15 +244,15 @@
   <aside class="sidebar">
     <div class="brand">TIMETRACKER</div>
     <ul class="nav-list">
-      <a href="dashboard.html" class="nav-item active">Attendance Clock</a>
-      <a href="timesheet.html" class="nav-item">My Timesheet</a>
+      <a href="dashboard.html" class="nav-item">Attendance Clock</a>
+      <a href="timesheet.html" class="nav-item active">My Timesheet</a>
     </ul>
   </aside>
 
   <main class="main-content">
     
     <header class="top-bar">
-      <h1>Attendance Console</h1>
+      <h1>Detailed Timesheet</h1>
       <div class="user-profile">
         <span id="userName">User</span>
         <div class="avatar" id="userAvatar">U</div>
@@ -272,35 +260,45 @@
       </div>
     </header>
 
-    <!-- Clocking Interface -->
-    <section class="timecard-section">
-      <div class="live-clock-container">
-        <h2 id="liveTime">00:00:00 AM</h2>
-        <p id="liveDate">Loading date...</p>
-        <div id="statusBadge" class="status-badge">Clocked Out</div>
+    <!-- Summary Metrics -->
+    <section class="summary-grid">
+      <div class="summary-card">
+        <h3>Total Hours Recorded</h3>
+        <div class="val" id="totalHoursVal">0h 0m</div>
       </div>
-      <div>
-        <button id="toggleClockBtn" class="action-btn">Clock In</button>
+      <div class="summary-card">
+        <h3>Total Shifts Worked</h3>
+        <div class="val" id="totalShiftsVal">0</div>
+      </div>
+      <div class="summary-card">
+        <h3>Avg. Shift Duration</h3>
+        <div class="val" id="avgShiftVal">0h 0m</div>
       </div>
     </section>
 
-    <!-- Attendance Logs -->
-    <section class="history-section">
-      <h2>Recent Attendance Activity</h2>
-      <table class="logs-table">
+    <!-- Timesheet Table -->
+    <section class="timesheet-section">
+      <div class="timesheet-header">
+        <h2>Shift Ledger</h2>
+        <select id="filterSelect" class="classic-select">
+          <option value="all">All Dates</option>
+        </select>
+      </div>
+
+      <table class="timesheet-table">
         <thead>
           <tr>
             <th>Date</th>
-            <th>Arrival Time</th>
-            <th>Departure Time</th>
-            <th>Total Hours</th>
+            <th>Clock In</th>
+            <th>Clock Out</th>
+            <th>Total Duration</th>
           </tr>
         </thead>
-        <tbody id="logsBody">
-          <!-- Dynamic Entries -->
+        <tbody id="timesheetBody">
+          <!-- Dynamic Log Entries -->
         </tbody>
       </table>
-      <div id="noRecordsMsg" class="no-records" style="display: none;">No attendance records found.</div>
+      <div id="emptyMsg" class="empty-state" style="display: none;">No timesheet data available.</div>
     </section>
 
   </main>
@@ -333,43 +331,56 @@
       window.location.href = 'index.html';
     });
 
-    const liveTimeEl = document.getElementById('liveTime');
-    const liveDateEl = document.getElementById('liveDate');
-    const toggleClockBtn = document.getElementById('toggleClockBtn');
-    const statusBadge = document.getElementById('statusBadge');
-    const logsBody = document.getElementById('logsBody');
-    const noRecordsMsg = document.getElementById('noRecordsMsg');
+    const timesheetBody = document.getElementById('timesheetBody');
+    const emptyMsg = document.getElementById('emptyMsg');
+    const totalHoursVal = document.getElementById('totalHoursVal');
+    const totalShiftsVal = document.getElementById('totalShiftsVal');
+    const avgShiftVal = document.getElementById('avgShiftVal');
+    const filterSelect = document.getElementById('filterSelect');
 
     const storageKeyLogs = `logs_${activeUser.email}`;
-    const storageKeyShift = `shift_${activeUser.email}`;
 
-    function updateLiveClock() {
-      const now = new Date();
-      liveTimeEl.textContent = now.toLocaleTimeString();
-      liveDateEl.textContent = now.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-    }
-    setInterval(updateLiveClock, 1000);
-    updateLiveClock();
-
-    function getLogs() {
-      return JSON.parse(localStorage.getItem(storageKeyLogs)) || [];
+    function parseMinutesFromDuration(durationStr) {
+      if (!durationStr) return 0;
+      const hMatch = durationStr.match(/(\d+)h/);
+      const mMatch = durationStr.match(/(\d+)m/);
+      const hours = hMatch ? parseInt(hMatch[1]) : 0;
+      const minutes = mMatch ? parseInt(mMatch[1]) : 0;
+      return (hours * 60) + minutes;
     }
 
-    function saveLogs(logs) {
-      localStorage.setItem(storageKeyLogs, JSON.stringify(logs));
+    function formatMinutesToHours(totalMinutes) {
+      const h = Math.floor(totalMinutes / 60);
+      const m = totalMinutes % 60;
+      return `${h}h ${m}m`;
     }
 
-    function renderLogs() {
-      const logs = getLogs();
-      logsBody.innerHTML = '';
+    function renderTimesheet() {
+      const logs = JSON.parse(localStorage.getItem(storageKeyLogs)) || [];
+      timesheetBody.innerHTML = '';
 
       if (logs.length === 0) {
-        noRecordsMsg.style.display = 'block';
+        emptyMsg.style.display = 'block';
+        totalHoursVal.textContent = '0h 0m';
+        totalShiftsVal.textContent = '0';
+        avgShiftVal.textContent = '0h 0m';
         return;
       }
 
-      noRecordsMsg.style.display = 'none';
-      logs.slice().reverse().forEach(log => {
+      emptyMsg.style.display = 'none';
+
+      let accumulatedMinutes = 0;
+      const selectedFilter = filterSelect.value;
+
+      const filteredLogs = logs.filter(log => {
+        if (selectedFilter === 'all') return true;
+        return log.date === selectedFilter;
+      });
+
+      filteredLogs.slice().reverse().forEach(log => {
+        const minutes = parseMinutesFromDuration(log.duration);
+        accumulatedMinutes += minutes;
+
         const row = document.createElement('tr');
         row.innerHTML = `
           <td>${log.date}</td>
@@ -377,68 +388,36 @@
           <td>${log.departure}</td>
           <td><strong>${log.duration}</strong></td>
         `;
-        logsBody.appendChild(row);
+        timesheetBody.appendChild(row);
+      });
+
+      totalShiftsVal.textContent = filteredLogs.length;
+      totalHoursVal.textContent = formatMinutesToHours(accumulatedMinutes);
+
+      if (filteredLogs.length > 0) {
+        const avgMinutes = Math.round(accumulatedMinutes / filteredLogs.length);
+        avgShiftVal.textContent = formatMinutesToHours(avgMinutes);
+      } else {
+        avgShiftVal.textContent = '0h 0m';
+      }
+    }
+
+    function populateFilterOptions() {
+      const logs = JSON.parse(localStorage.getItem(storageKeyLogs)) || [];
+      const dates = [...new Set(logs.map(log => log.date))];
+      
+      dates.forEach(d => {
+        const opt = document.createElement('option');
+        opt.value = d;
+        opt.textContent = d;
+        filterSelect.appendChild(opt);
       });
     }
 
-    function updateShiftUI() {
-      const activeShift = localStorage.getItem(storageKeyShift);
-      if (activeShift) {
-        const shiftData = JSON.parse(activeShift);
-        statusBadge.textContent = `Clocked In (${shiftData.arrival})`;
-        statusBadge.classList.add('working');
-        toggleClockBtn.textContent = 'Clock Out';
-        toggleClockBtn.classList.add('clocked-in');
-      } else {
-        statusBadge.textContent = 'Clocked Out';
-        statusBadge.classList.remove('working');
-        toggleClockBtn.textContent = 'Clock In';
-        toggleClockBtn.classList.remove('clocked-in');
-      }
-    }
+    filterSelect.addEventListener('change', renderTimesheet);
 
-    toggleClockBtn.addEventListener('click', () => {
-      const activeShift = localStorage.getItem(storageKeyShift);
-      const now = new Date();
-
-      if (!activeShift) {
-        const shiftData = {
-          startTimeIso: now.toISOString(),
-          date: now.toLocaleDateString(),
-          arrival: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        };
-        localStorage.setItem(storageKeyShift, JSON.stringify(shiftData));
-      } else {
-        const shiftData = JSON.parse(activeShift);
-        const startTime = new Date(shiftData.startTimeIso);
-        const departureTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-        const diffMs = now - startTime;
-        const totalMinutes = Math.floor(diffMs / (1000 * 60));
-        const hrs = Math.floor(totalMinutes / 60);
-        const mins = totalMinutes % 60;
-        const durationStr = `${hrs}h ${mins}m`;
-
-        const newLog = {
-          date: shiftData.date,
-          arrival: shiftData.arrival,
-          departure: departureTime,
-          duration: durationStr
-        };
-
-        const logs = getLogs();
-        logs.push(newLog);
-        saveLogs(logs);
-
-        localStorage.removeItem(storageKeyShift);
-      }
-
-      updateShiftUI();
-      renderLogs();
-    });
-
-    updateShiftUI();
-    renderLogs();
+    populateFilterOptions();
+    renderTimesheet();
   </script>
 
 </body>
