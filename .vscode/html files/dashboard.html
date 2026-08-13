@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TimeTracker - Attendance Dashboard</title>
+  <link rel="stylesheet" href="../css files/dashboard.css">
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="brand">TIMETRACKER</div>
+    <ul class="nav-list">
+      <a href="dashboard.html" class="nav-item active">Attendance Clock</a>
+      <a href="timesheet.html" class="nav-item">My Timesheet</a>
+    </ul>
+  </aside>
+
+  <main class="main-content">
+    
+    <header class="top-bar">
+      <h1>Attendance Console</h1>
+      <div class="user-profile">
+        <span id="userName">User</span>
+        <div class="avatar" id="userAvatar">U</div>
+        <a id="logoutBtn" class="logout-btn" style="margin-left: 10px;">Sign Out</a>
+      </div>
+    </header>
+
+    <!-- Clocking Interface -->
+    <section class="timecard-section">
+      <div class="live-clock-container">
+        <h2 id="liveTime">00:00:00 AM</h2>
+        <p id="liveDate">Loading date...</p>
+        <div id="statusBadge" class="status-badge">Clocked Out</div>
+      </div>
+      <div>
+        <button id="toggleClockBtn" class="action-btn">Clock In</button>
+      </div>
+    </section>
+
+    <!-- Attendance Logs -->
+    <section class="history-section">
+      <h2>Recent Attendance Activity</h2>
+      <table class="logs-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Arrival Time</th>
+            <th>Departure Time</th>
+            <th>Total Hours</th>
+          </tr>
+        </thead>
+        <tbody id="logsBody">
+          <!-- Dynamic Entries -->
+        </tbody>
+      </table>
+      <div id="noRecordsMsg" class="no-records" style="display: none;">No attendance records found.</div>
+    </section>
+
+  </main>
+  <script src="../js files/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+    :root {
+      --bg-color: #f4f2ee;          /* Warm Linen */
+      --card-bg: #ffffff;           /* Pure White */
+      --primary: #1b2a4a;           /* Executive Deep Navy */
+      --primary-hover: #111c33;     
+      --accent: #b8860b;            /* Classic Gold / Bronze */
+      --accent-light: #faf6ed;      
+      --text: #1c1917;              /* Deep Charcoal */
+      --text-muted: #78716c;        
+      --border: #e2dfd7;            
+      --danger: #b91c1c;            /* Classic Crimson */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      min-height: 100vh;
+      color: var(--text);
+      display: flex;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 260px;
+      background-color: var(--primary);
+      color: #ffffff;
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    .brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+      color: #ffffff;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      padding-bottom: 1rem;
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .nav-item {
+      padding: 0.8rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.75);
+      display: block;
+      font-size: 0.95rem;
+    }
+
+    .nav-item.active, .nav-item:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      border-left: 3px solid var(--accent);
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .top-bar {
+      background-color: var(--card-bg);
+      padding: 1.25rem 2rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .top-bar h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--accent);
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .logout-btn {
+      color: var(--danger);
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    /* Metric Summary Cards */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .summary-card {
+      background-color: var(--card-bg);
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      border-top: 3px solid var(--accent);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+    }
+
+    .summary-card h3 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .summary-card .val {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    /* Timesheet Table Section */
+    .timesheet-section {
+      background-color: var(--card-bg);
+      padding: 2rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      flex: 1;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    }
+
+    .timesheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .timesheet-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      color: var(--primary);
+    }
+
+    .classic-select {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border);
+      outline: none;
+      background-color: #fafafa;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .classic-select:focus {
+      border-color: var(--accent);
+    }
+
+    .timesheet-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .timesheet-table th {
+      text-align: left;
+      padding: 0.85rem 1rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      border-bottom: 2px solid var(--border);
+      background-color: #fafafa;
+    }
+
+    .timesheet-table td {
+      padding: 1rem;
+      font-size: 0.95rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .timesheet-table tr:hover td {
+      background-color: var(--accent-light);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 2.5rem;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }

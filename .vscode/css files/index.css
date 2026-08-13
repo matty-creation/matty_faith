@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+    :root {
+      --bg-color: #f4f2ee;          /* Warm Linen */
+      --card-bg: #efe9e9;           /* Pure White */
+      --primary: #1b2a4a;           /* Executive Deep Navy */
+      --primary-hover: #111c33;     
+      --accent: #b8860b;            /* Classic Gold / Bronze */
+      --accent-light: #faf6ed;      
+      --text: #1c1917;              /* Deep Charcoal */
+      --text-muted: #78716c;        
+      --border: #e2dfd7;            
+      --danger: #b91c1c;            /* Classic Crimson */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--text);
+      padding: 2rem 1rem;
+    }
+
+    .classic-card {
+      background-color: var(--card-bg);
+      padding: 3rem 2.5rem;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 25px rgba(27, 42, 74, 0.06);
+      border-top: 4px solid var(--accent);
+    }
+
+    .brand-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .brand-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+    }
+
+    .brand-header p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-top: 0.3rem;
+    }
+
+    .tab-container {
+      display: flex;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 1.8rem;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 0.75rem;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+    }
+
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: var(--accent);
+    }
+
+    .alert-msg {
+      display: none;
+      padding: 0.75rem 1rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      background-color: #fef2f2;
+      border: 1px solid #fecaca;
+      color: var(--danger);
+    }
+
+    .auth-form {
+      display: none;
+    }
+
+    .auth-form.active {
+      display: block;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+      text-align: left;
+      flex: 1;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .classic-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      outline: none;
+      background-color: #fafafa;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      color: var(--text);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .classic-input:focus {
+      border-color: var(--accent);
+      background-color: var(--card-bg);
+      box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.12);
+    }
+
+    .classic-button {
+      width: 100%;
+      padding: 0.85rem;
+      border: none;
+      background-color: var(--primary);
+      color: #ffffff;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      letter-spacing: 0.5px;
+      transition: background-color 0.2s ease;
+    }
+
+    .classic-button:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .toggle-text {
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .toggle-text a {
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .toggle-text a:hover {
+      text-decoration: underline;
+    }
