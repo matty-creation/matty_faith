@@ -5,10 +5,8 @@ from app.database.session import get_session
 from app.models.employee import Employee
 from app.schemas.employee import EmployeeCreate, EmployeeResponse
 
-from back_end.app.database import session
-
 router = APIRouter(
-    prefix="/employees"
+    prefix="/employees",
     tags=["Employees"]
 )
 
