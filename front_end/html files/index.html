@@ -1,153 +1,374 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TimeTracker - Sign In</title>
-  <link rel="stylesheet" href="../css files/index.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/css/intlTelInput.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TimeTracker - Sign In</title>
+
+    <link rel="stylesheet" href="../css files/index.css">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/css/intlTelInput.css">
 </head>
+
 <body>
 
-  <div class="classic-card">
-    <div class="brand-header">
-      <h1>TIMETRACKER</h1>
-      <p>Workforce Attendance Management</p>
+    <div class="classic-card">
+
+        <div class="brand-header">
+            <h1>TIMETRACKER</h1>
+            <p>Workforce Attendance Management</p>
+        </div>
+
+        <div class="tab-container">
+
+            <button type="button"
+                    class="tab-btn active"
+                    id="loginTab">
+                Sign In
+            </button>
+
+            <button type="button"
+                    class="tab-btn"
+                    id="signupTab">
+                Register
+            </button>
+
+        </div>
+
+        <div id="alertBox" class="alert-msg"></div>
+
+
+        <!-- LOGIN FORM -->
+
+        <form id="loginForm"
+              class="auth-form active"
+              method="post">
+
+            <div class="form-group">
+
+                <label for="login-email">
+                    Email Address
+                </label>
+
+                <input type="email"
+                       id="login-email"
+                       class="classic-input"
+                       placeholder="johndoe@gmail.com"
+                       autocomplete="email"
+                       required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="login-password">
+                    Password
+                </label>
+
+                <div class="password-input-wrapper">
+
+                    <input type="password"
+                           id="login-password"
+                           class="classic-input"
+                           placeholder="Enter your password"
+                           autocomplete="current-password"
+                           required>
+
+                    <button type="button"
+                            class="password-toggle"
+                            data-target="login-password"
+                            aria-label="Show password">
+                        <span class="eye-icon">👁</span>
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <button type="submit"
+                    class="classic-button">
+                Sign In to Account
+            </button>
+
+
+            <p class="toggle-text">
+                Need an account?
+                <a href="#" id="gotoSignup">
+                    Register here
+                </a>
+            </p>
+
+        </form>
+
+
+        <!-- REGISTER FORM -->
+
+        <form id="signupForm"
+              class="auth-form">
+
+            <div class="form-row">
+
+
+                <div class="form-group">
+
+                    <label for="first-name">
+                        First Name
+                    </label>
+
+                    <input type="text"
+                           id="first-name"
+                           class="classic-input"
+                           placeholder="John"
+                           autocomplete="given-name"
+                           required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="last-name">
+                        Last Name
+                    </label>
+
+                    <input type="text"
+                           id="last-name"
+                           class="classic-input"
+                           placeholder="Doe"
+                           autocomplete="family-name"
+                           required>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-row">
+
+
+                <!-- PHONE -->
+
+                <div class="form-group">
+
+                    <label for="phone">
+                        Phone Number
+                    </label>
+
+                    <input type="tel"
+                           id="phone"
+                           class="classic-input"
+                           placeholder="111 111 1111"
+                           maxlength="12"
+                           autocomplete="tel"
+                           required>
+
+                    <small id="phone-error"
+                           class="validation-message">
+                    </small>
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label for="signup-email">
+                        Email Address
+                    </label>
+
+                    <input type="email"
+                           id="signup-email"
+                           class="classic-input"
+                           placeholder="johndoe@gmail.com"
+                           autocomplete="email"
+                           required>
+
+                    <small id="signup-email-error"
+                           class="validation-message">
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- ADDRESS -->
+
+            <div class="form-group">
+
+                <label for="address">
+                    Address
+                </label>
+
+                <input type="text"
+                       id="address"
+                       class="classic-input"
+                       placeholder="123 Corporate Ave"
+                       autocomplete="street-address"
+                       required>
+
+            </div>
+
+
+            <div class="form-row">
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group password-group">
+
+                    <label for="signup-password">
+                        Password
+                    </label>
+
+                    <div class="password-input-wrapper">
+
+                        <input type="password"
+                               id="signup-password"
+                               class="classic-input"
+                               placeholder="Enter your password"
+                               autocomplete="new-password"
+                               required>
+
+                        <button type="button"
+                                class="password-toggle"
+                                data-target="signup-password"
+                                aria-label="Show password">
+
+                            <span class="eye-icon">👁</span>
+
+                        </button>
+
+                    </div>
+
+
+                    <div id="password-requirements"
+                         class="password-requirements">
+
+
+                        <p id="length-check">
+
+                            <span class="check-icon">✓</span>
+
+                            6–20 characters
+
+                        </p>
+
+
+                        <p id="case-check">
+
+                            <span class="check-icon">✓</span>
+
+                            Uppercase and lowercase letters
+
+                        </p>
+
+
+                        <p id="number-check">
+
+                            <span class="check-icon">✓</span>
+
+                            At least one number
+
+                        </p>
+
+
+                        <p id="special-check">
+
+                            <span class="check-icon">✓</span>
+
+                            At least one special character
+
+                        </p>
+
+
+                        <p id="space-check">
+
+                            <span class="check-icon">✓</span>
+
+                            No spaces
+
+                        </p>
+
+                    </div>
+
+
+                    <small id="signup-password-error"
+                           class="validation-message">
+                    </small>
+
+                </div>
+
+
+                <!-- CONFIRM PASSWORD -->
+
+                <div class="form-group password-group">
+
+                    <label for="confirm-password">
+                        Confirm Password
+                    </label>
+
+                    <div class="password-input-wrapper">
+
+                        <input type="password"
+                               id="confirm-password"
+                               class="classic-input"
+                               placeholder="Confirm your password"
+                               autocomplete="new-password"
+                               required>
+
+                        <button type="button"
+                                class="password-toggle"
+                                data-target="confirm-password"
+                                aria-label="Show password">
+
+                            <span class="eye-icon">👁</span>
+
+                        </button>
+
+                    </div>
+
+
+                    <small id="confirm-password-error"
+                           class="validation-message">
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <button type="submit"
+                    class="classic-button">
+                Create Account
+            </button>
+
+
+            <p class="toggle-text">
+
+                Already registered?
+
+                <a href="#" id="gotoLogin">
+                    Sign in here
+                </a>
+
+            </p>
+
+        </form>
+
     </div>
-    
-    <div class="tab-container">
-      <button type="button" class="tab-btn active" id="loginTab">Sign In</button>
-      <button type="button" class="tab-btn" id="signupTab">Register</button>
-    </div>
 
-    <div id="alertBox" class="alert-msg"></div>
 
-    <!-- LOG IN FORM -->
-    <form id="loginForm" class="auth-form active" method="post">
-      <div class="form-group">
-        <label for="login-email">Email Address</label>
-        <input type="email" id="login-email" class="classic-input" placeholder="name@company.com" required>
-      </div>
-      
-      <div class="form-group">
-        <label for="login-password">Password</label>
-        <input type="password" id="login-password" class="classic-input" placeholder="••••••••" required>
-      </div>
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js"></script>
 
-      <button type="submit" class="classic-button">Sign In to Account</button>
+    <script src="../js files/index.js"></script>
 
-      <p class="toggle-text">
-        Need an account? <a href="#" id="gotoSignup">Register here</a>
-      </p>
-    </form>
-
-    <!-- SIGN UP FORM -->
-    <form id="signupForm" class="auth-form">
-      <div class="form-row">
-        <div class="form-group">
-          <label for="first-name">First Name</label>
-          <input type="text" id="first-name" class="classic-input" placeholder="John" required>
-        </div>
-        <div class="form-group">
-          <label for="last-name">Last Name</label>
-          <input type="text" id="last-name" class="classic-input" placeholder="Doe" required>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label for="phone">Phone</label>
-          <input type="tel" 
-                 id="phone" 
-                 class="classic-input"
-                 placeholder="+1 234 567 890" 
-                 autocomplete="tel"
-                 required>
-          <small id="phone-error" class="validation-message"></small>  
-        </div>
-
-        <div class="form-group">
-          <label for="signup-email">Email Address</label>
-          <input type="email" 
-                 id="signup-email" 
-                 class="classic-input"
-                 placeholder="john@company.com"
-                 required>
-          <small id="signup-email-error" class="validation-message"></small>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="address">Address</label>
-        <input type="text" id="address" class="classic-input" placeholder="123 Corporate Ave" required>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label for="signup-password">Password</label>
-          <input type="password" id="signup-password" class="classic-input" placeholder="••••••••" required>
-          <button type="button" class="password-toggle" data-target="signup-password">
-            <span class="eye-icon"></span>
-          </button>
-          <small id="signup-password-error" class="validation-message"></small>
-        </div>
-
-        <div class="form-group">
-          <label for="confirm-password">Confirm Password</label>
-          <input type="password" id="confirm-password" class="classic-input" placeholder="••••••••" required>
-          <button type="button" class="password-toggle" data-target="confirm-password">
-            <span class="eye-icon"></span>
-          </button>
-          <small id="confirm-password-error" class="validation-message"></small>
-        </div>
-      </div>
-
-      <button type="submit" class="classic-button">Create Account</button>
-
-      <p class="toggle-text">
-        Already registered? <a href="#" id="gotoLogin">Sign in here</a>
-      </p>
-    </form>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js"></script>
-  <script src="../js files/index.js"></script>
-
-  <!-- Minimal tab switching (fixes the Register / Sign In switching) -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const loginTab    = document.getElementById('loginTab');
-      const signupTab   = document.getElementById('signupTab');
-      const loginForm   = document.getElementById('loginForm');
-      const signupForm  = document.getElementById('signupForm');
-      const gotoSignup  = document.getElementById('gotoSignup');
-      const gotoLogin   = document.getElementById('gotoLogin');
-
-      function showLogin() {
-        loginTab.classList.add('active');
-        signupTab.classList.remove('active');
-        loginForm.classList.add('active');
-        signupForm.classList.remove('active');
-      }
-
-      function showSignup() {
-        signupTab.classList.add('active');
-        loginTab.classList.remove('active');
-        signupForm.classList.add('active');
-        loginForm.classList.remove('active');
-      }
-
-      loginTab.addEventListener('click', showLogin);
-      signupTab.addEventListener('click', showSignup);
-      if (gotoSignup) gotoSignup.addEventListener('click', function(e) {
-        e.preventDefault();
-        showSignup();
-      });
-      if (gotoLogin) gotoLogin.addEventListener('click', function(e) {
-        e.preventDefault();
-        showLogin();
-      });
-    });
-  </script>
 </body>
+
 </html>

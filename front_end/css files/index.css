@@ -1,189 +1,794 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
-    :root {
-      --bg-color: #f4f2ee;          /* Warm Linen */
-      --card-bg: #efe9e9;           /* Pure White */
-      --primary: #1b2a4a;           /* Executive Deep Navy */
-      --primary-hover: #111c33;     
-      --accent: #b8860b;            /* Classic Gold / Bronze */
-      --accent-light: #faf6ed;      
-      --text: #1c1917;              /* Deep Charcoal */
-      --text-muted: #78716c;        
-      --border: #e2dfd7;            
-      --danger: #b91c1c;            /* Classic Crimson */
+
+:root {
+    --bg-color: #f4f2ee;
+    --card-bg: #efe9e9;
+
+    --primary: #1b2a4a;
+    --primary-hover: #111c33;
+
+    --accent: #b8860b;
+    --accent-light: #faf6ed;
+
+    --text: #1c1917;
+    --text-muted: #78716c;
+
+    --border: #e2dfd7;
+
+    --danger: #b91c1c;
+    --success: #218838;
+
+    --input-bg: #fafafa;
+}
+
+
+/* =========================
+   RESET
+========================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    font-family:
+        'Plus Jakarta Sans',
+        sans-serif;
+}
+
+
+/* =========================
+   BODY
+========================= */
+
+body {
+    background-color: var(--bg-color);
+
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: var(--text);
+
+    padding: 2rem 1rem;
+}
+
+
+/* =========================
+   MAIN CARD
+========================= */
+
+.classic-card {
+    background-color: var(--card-bg);
+
+    padding: 3rem 2.5rem;
+
+    width: 100%;
+    max-width: 480px;
+
+    border-radius: 8px;
+
+    border: 1px solid var(--border);
+
+    box-shadow:
+        0 10px 25px rgba(27, 42, 74, 0.06);
+
+    border-top: 4px solid var(--accent);
+}
+
+
+/* =========================
+   BRAND HEADER
+========================= */
+
+.brand-header {
+    text-align: center;
+
+    margin-bottom: 2rem;
+}
+
+.brand-header h1 {
+    font-family:
+        'Playfair Display',
+        serif;
+
+    font-size: 2rem;
+
+    color: var(--primary);
+
+    letter-spacing: -0.5px;
+}
+
+.brand-header p {
+    font-size: 0.9rem;
+
+    color: var(--text-muted);
+
+    margin-top: 0.3rem;
+}
+
+
+/* =========================
+   LOGIN / REGISTER TABS
+========================= */
+
+.tab-container {
+    display: flex;
+
+    border-bottom:
+        2px solid var(--border);
+
+    margin-bottom: 1.8rem;
+}
+
+.tab-btn {
+    flex: 1;
+
+    padding: 0.75rem;
+
+    border: none;
+
+    background: transparent;
+
+    color: var(--text-muted);
+
+    font-weight: 600;
+
+    font-size: 0.95rem;
+
+    cursor: pointer;
+
+    transition:
+        all 0.2s ease;
+
+    position: relative;
+}
+
+.tab-btn:hover {
+    color: var(--primary);
+}
+
+.tab-btn.active {
+    color: var(--primary);
+}
+
+.tab-btn.active::after {
+    content: '';
+
+    position: absolute;
+
+    bottom: -2px;
+
+    left: 0;
+    right: 0;
+
+    height: 2px;
+
+    background-color: var(--accent);
+}
+
+
+/* =========================
+   ALERT MESSAGE
+========================= */
+
+.alert-msg {
+    display: none;
+
+    padding:
+        0.75rem 1rem;
+
+    border-radius: 4px;
+
+    font-size: 0.85rem;
+
+    font-weight: 500;
+
+    margin-bottom: 1.5rem;
+
+    background-color: #fef2f2;
+
+    border:
+        1px solid #fecaca;
+
+    color: var(--danger);
+}
+
+
+/* =========================
+   FORMS
+========================= */
+
+.auth-form {
+    display: none;
+}
+
+.auth-form.active {
+    display: block;
+}
+
+
+/* =========================
+   FORM ROW
+========================= */
+
+.form-row {
+    display: flex;
+
+    gap: 1rem;
+
+    width: 100%;
+}
+
+
+/* =========================
+   FORM GROUP
+========================= */
+
+.form-group {
+    margin-bottom: 1.25rem;
+
+    text-align: left;
+
+    flex: 1;
+
+    min-width: 0;
+
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 0.4rem;
+
+    font-weight: 600;
+
+    font-size: 0.85rem;
+
+    color: var(--primary);
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+}
+
+
+/* =========================
+   INPUTS
+========================= */
+
+.classic-input {
+    width: 100%;
+
+    padding:
+        0.75rem 1rem;
+
+    border:
+        1px solid var(--border);
+
+    outline: none;
+
+    background-color:
+        var(--input-bg);
+
+    border-radius: 4px;
+
+    font-size: 0.95rem;
+
+    color: var(--text);
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.classic-input:focus {
+    border-color:
+        var(--accent);
+
+    background-color:
+        var(--card-bg);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(184, 134, 11, 0.12);
+}
+
+
+/* =========================
+   INPUT PLACEHOLDER
+========================= */
+
+.classic-input::placeholder {
+    color: #aaa;
+
+    opacity: 1;
+}
+
+
+/* =========================
+   PASSWORD INPUT
+========================= */
+
+.password-input-wrapper {
+    position: relative;
+
+    width: 100%;
+}
+
+.password-input-wrapper .classic-input {
+    width: 100%;
+
+    padding-right: 48px;
+}
+
+
+/* =========================
+   EYE BUTTON
+========================= */
+
+.password-toggle {
+    position: absolute;
+
+    right: 8px;
+
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    width: 34px;
+
+    height: 34px;
+
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    cursor: pointer;
+
+    z-index: 5;
+
+    border-radius: 4px;
+}
+
+.password-toggle:hover {
+    background-color:
+        rgba(184, 134, 11, 0.08);
+}
+
+.eye-icon {
+    font-size: 16px;
+
+    opacity: 0.55;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+.password-toggle:hover .eye-icon {
+    opacity: 1;
+
+    transform: scale(1.05);
+}
+
+
+/* =========================
+   PASSWORD REQUIREMENTS
+========================= */
+
+.password-requirements {
+    display: none;
+
+    margin-top: 10px;
+
+    padding:
+        12px 14px;
+
+    background-color:
+        #faf9f7;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 7px;
+
+    box-shadow:
+        0 3px 8px
+        rgba(27, 42, 74, 0.04);
+
+    animation:
+        passwordBoxAppear
+        0.2s ease;
+}
+
+.password-requirements.show {
+    display: block;
+}
+
+
+@keyframes passwordBoxAppear {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(-4px);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
     }
+}
+
+
+/* =========================
+   PASSWORD REQUIREMENT ROW
+========================= */
+
+.password-requirements p {
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    margin: 7px 0;
+
+    font-size: 12px;
+
+    color: var(--text-muted);
+
+    line-height: 1.4;
+
+    transition:
+        color 0.2s ease;
+}
+
+
+/* =========================
+   CHECK CIRCLE
+========================= */
+
+.check-icon {
+    width: 17px;
+
+    height: 17px;
+
+    min-width: 17px;
+
+    border:
+        1px solid #c8c5bf;
+
+    border-radius: 50%;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    color: transparent;
+
+    background-color:
+        transparent;
+
+    transition:
+        all 0.2s ease;
+}
+
+
+/* =========================
+   VALID REQUIREMENT
+========================= */
+
+.password-requirements p.valid {
+    color:
+        var(--success);
+}
+
+.password-requirements p.valid .check-icon {
+    color: white;
+
+    background-color:
+        var(--success);
+
+    border-color:
+        var(--success);
+}
+
+
+/* =========================
+   INVALID REQUIREMENT
+========================= */
+
+.password-requirements p.invalid {
+    color:
+        var(--text-muted);
+}
+
+.password-requirements p.invalid .check-icon {
+    color: transparent;
+
+    background-color:
+        transparent;
+
+    border-color:
+        #c8c5bf;
+}
+
+
+/* =========================
+   VALIDATION MESSAGES
+========================= */
+
+.validation-message {
+    display: block;
+
+    margin-top: 5px;
+
+    font-size: 12px;
+
+    line-height: 1.4;
+
+    min-height: 0;
+}
+
+.validation-message.error {
+    color:
+        var(--danger);
+}
+
+.validation-message.success {
+    color:
+        var(--success);
+}
+
+
+/* =========================
+   PHONE INPUT
+========================= */
+
+.iti {
+    width: 100%;
+}
+
+.iti .classic-input {
+    width: 100%;
+}
+
+
+/* Make the phone country selector
+   match the existing design */
+
+.iti__country-container {
+    border-radius: 4px;
+}
+
+.iti__selected-country {
+    background: transparent;
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
+.classic-button {
+    width: 100%;
+
+    padding:
+        0.85rem;
+
+    border: none;
+
+    background-color:
+        var(--primary);
+
+    color: #ffffff;
+
+    font-size: 0.95rem;
+
+    font-weight: 600;
+
+    border-radius: 4px;
+
+    cursor: pointer;
+
+    margin-top: 0.5rem;
+
+    letter-spacing: 0.5px;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
+}
+
+.classic-button:hover {
+    background-color:
+        var(--primary-hover);
+
+    box-shadow:
+        0 4px 10px
+        rgba(27, 42, 74, 0.15);
+}
+
+.classic-button:active {
+    transform:
+        translateY(1px);
+}
+
+
+/* =========================
+   TOGGLE TEXT
+========================= */
+
+.toggle-text {
+    margin-top: 1.5rem;
+
+    font-size: 0.85rem;
+
+    color: var(--text-muted);
+
+    text-align: center;
+}
+
+.toggle-text a {
+    color:
+        var(--accent);
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+.toggle-text a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================
+   AUTOFILL
+========================= */
+
+.classic-input:-webkit-autofill,
+.classic-input:-webkit-autofill:hover,
+.classic-input:-webkit-autofill:focus {
+    -webkit-text-fill-color:
+        var(--text);
+
+    -webkit-box-shadow:
+        0 0 0 1000px
+        var(--input-bg)
+        inset;
+
+    transition:
+        background-color 5000s ease-in-out 0s;
+}
+
+
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
+
+@media (max-width: 600px) {
 
     body {
-      background-color: var(--bg-color);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: var(--text);
-      padding: 2rem 1rem;
+        padding:
+            1rem 0.75rem;
+
+        align-items:
+            flex-start;
     }
+
 
     .classic-card {
-      background-color: var(--card-bg);
-      padding: 3rem 2.5rem;
-      width: 100%;
-      max-width: 480px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      box-shadow: 0 10px 25px rgba(27, 42, 74, 0.06);
-      border-top: 4px solid var(--accent);
+        margin-top: 1rem;
+
+        padding:
+            2rem 1.25rem;
+
+        max-width:
+            100%;
     }
 
-    .brand-header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
 
     .brand-header h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      color: var(--primary);
-      letter-spacing: -0.5px;
+        font-size:
+            1.7rem;
     }
+
 
     .brand-header p {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      margin-top: 0.3rem;
+        font-size:
+            0.8rem;
     }
 
-    .tab-container {
-      display: flex;
-      border-bottom: 2px solid var(--border);
-      margin-bottom: 1.8rem;
-    }
-
-    .tab-btn {
-      flex: 1;
-      padding: 0.75rem;
-      border: none;
-      background: transparent;
-      color: var(--text-muted);
-      font-weight: 600;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      position: relative;
-    }
-
-    .tab-btn.active {
-      color: var(--primary);
-    }
-
-    .tab-btn.active::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background-color: var(--accent);
-    }
-
-    .alert-msg {
-      display: none;
-      padding: 0.75rem 1rem;
-      border-radius: 4px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      margin-bottom: 1.5rem;
-      background-color: #fef2f2;
-      border: 1px solid #fecaca;
-      color: var(--danger);
-    }
-
-    .auth-form {
-      display: none;
-    }
-
-    .auth-form.active {
-      display: block;
-    }
 
     .form-row {
-      display: flex;
-      gap: 1rem;
+        flex-direction:
+            column;
+
+        gap: 0;
     }
+
 
     .form-group {
-      margin-bottom: 1.25rem;
-      text-align: left;
-      flex: 1;
+        width: 100%;
     }
 
-    .form-group label {
-      display: block;
-      margin-bottom: 0.4rem;
-      font-weight: 600;
-      font-size: 0.85rem;
-      color: var(--primary);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+
+    .password-requirements {
+        padding:
+            11px 12px;
     }
+
+
+    .password-requirements p {
+        font-size:
+            11.5px;
+    }
+
+}
+
+
+/* =========================
+   VERY SMALL SCREENS
+========================= */
+
+@media (max-width: 380px) {
+
+    .classic-card {
+        padding:
+            1.5rem 1rem;
+    }
+
+
+    .brand-header {
+        margin-bottom:
+            1.5rem;
+    }
+
+
+    .brand-header h1 {
+        font-size:
+            1.5rem;
+    }
+
 
     .classic-input {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      border: 1px solid var(--border);
-      outline: none;
-      background-color: #fafafa;
-      border-radius: 4px;
-      font-size: 0.95rem;
-      color: var(--text);
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        font-size:
+            0.9rem;
     }
 
-    .classic-input:focus {
-      border-color: var(--accent);
-      background-color: var(--card-bg);
-      box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.12);
-    }
 
     .classic-button {
-      width: 100%;
-      padding: 0.85rem;
-      border: none;
-      background-color: var(--primary);
-      color: #ffffff;
-      font-size: 0.95rem;
-      font-weight: 600;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-top: 0.5rem;
-      letter-spacing: 0.5px;
-      transition: background-color 0.2s ease;
+        font-size:
+            0.9rem;
     }
 
-    .classic-button:hover {
-      background-color: var(--primary-hover);
-    }
-
-    .toggle-text {
-      margin-top: 1.5rem;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      text-align: center;
-    }
-
-    .toggle-text a {
-      color: var(--accent);
-      font-weight: 600;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .toggle-text a:hover {
-      text-decoration: underline;
-    }
+}
