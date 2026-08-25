@@ -15,6 +15,24 @@ try {
     const gotoLogin = document.getElementById('gotoLogin');
     const alertBox = document.getElementById('alertBox');
 
+   const firstnameInput = document.getElementById('first-name');
+   const lastnameInput = document.getElementById('last-name');
+   const phoneInput = document.getElementById('phone-number');
+   const phoneError = document.getElementById('phone-number-error');
+   const emailInput = document.getElementById('signup-email');
+   const emailError = document.getElementById('signup-email-error');
+   const passwordInput = document.getElementById('signup-password');
+   const passwordError = document.getElementById('signup-password-error');
+   const confirmPasswordInput = document.getElementById('confirm-password');
+   const confirmPasswordError = document.getElementById('confirm-password-error');
+
+   const iti=window.IntlTelInput(phoneInput, {
+      initialCountry: ' tz',
+      separateDialCode: true,
+      preferredCountries: ['tz', 'ke', 'ug'],
+      utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js',
+    });
+
     function hideAlert() {
       alertBox.style.display = 'none';
       alertBox.innerText = '';
