@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TimeTracker - My Profile</title>
+  <link rel="stylesheet" href="../css files/profile.css">
+</head>
+
+<body>
+
+  <aside class="sidebar">
+    <div class="brand">TIMETRACKER</div>
+
+    <ul class="nav-list">
+      <a href="dashboard.html" class="nav-item">
+        Attendance Clock
+      </a>
+
+      <a href="profile.html" class="nav-item active">
+        My Profile
+      </a>
+    </ul>
+  </aside>
+
+  <main class="main-content">
+
+    <div class="profile-page">
+
+      <header class="profile-header-card">
+
+        <div class="profile-title">
+          <h1>My Profile</h1>
+          <p>Manage your personal information and account preferences</p>
+        </div>
+
+        <div class="header-user">
+          <span id="headerUserName">User</span>
+
+          <div class="header-avatar" id="headerAvatar">
+            U
+          </div>
+        </div>
+
+      </header>
+
+      <section class="profile-card">
+
+        <div class="profile-top">
+
+          <div class="profile-avatar" id="profileAvatar">
+            U
+          </div>
+
+          <div class="profile-introduction">
+
+            <h2 id="profileFullName">
+              User
+            </h2>
+
+            <p id="profileUsername">
+              Account information
+            </p>
+
+            <div class="photo-actions">
+
+              <label class="photo-btn upload-btn">
+                Upload Photo
+
+                <input
+                  type="file"
+                  id="uploadInput"
+                  accept="image/*"
+                  hidden
+                >
+              </label>
+
+              <button
+                type="button"
+                id="openCameraBtn"
+                class="photo-btn camera-btn">
+                Take Photo
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <h3 class="section-title">
+          Personal Information
+        </h3>
+
+        <form id="profileForm">
+
+          <div class="information-grid">
+
+            <div class="information-item">
+              <label for="prof-firstName">
+                First Name
+              </label>
+
+              <input
+                type="text"
+                id="prof-firstName"
+                readonly
+              >
+            </div>
+
+            <div class="information-item">
+              <label for="prof-lastName">
+                Last Name
+              </label>
+
+              <input
+                type="text"
+                id="prof-lastName"
+                readonly
+              >
+            </div>
+
+            <div class="information-item">
+              <label for="prof-username">
+                Username
+              </label>
+
+              <input
+                type="text"
+                id="prof-username"
+                readonly
+              >
+            </div>
+
+            <div class="information-item">
+              <label for="prof-email">
+                Email Address
+              </label>
+
+              <input
+                type="email"
+                id="prof-email"
+                readonly
+              >
+            </div>
+
+            <div class="information-item">
+              <label for="prof-phone">
+                Phone Number
+              </label>
+
+              <input
+                type="text"
+                id="prof-phone"
+                readonly
+              >
+            </div>
+
+            <div class="information-item">
+              <label for="prof-status">
+                Account Status
+              </label>
+
+              <input
+                type="text"
+                id="prof-status"
+                value="Active"
+                readonly
+              >
+            </div>
+
+          </div>
+
+          <div class="editable-section">
+            <h3 class="section-title">Work Information</h3>
+
+            <div class="form-group">
+              <label for="prof-department">Department / Sector</label>
+              <input
+                type="text"
+                id="prof-department"
+                class="classic-input"
+                placeholder="e.g. Information Technology, Finance, Operations"
+                readonly
+              >
+            </div>
+          </div>
+
+          <div class="settings-row">
+
+            <div class="settings-text">
+              <strong>Appearance</strong>
+
+              <span>
+                Change between light and dark mode
+              </span>
+            </div>
+
+            <button
+              type="button"
+              id="themeToggleBtn"
+              class="theme-button">
+              Switch Mode
+            </button>
+
+          </div>
+
+          <button
+            type="submit"
+            id="editProfileBtn"
+            class="save-button">
+            Edit Profile
+          </button>
+
+          <div
+            id="successMessage"
+            class="success-message">
+            Profile changes saved successfully.
+          </div>
+
+        </form>
+
+      </section>
+
+    </div>
+
+  </main>
+
+  <div
+    id="cameraModal"
+    class="camera-modal">
+
+    <div class="camera-box">
+
+      <h2>Take Profile Photo</h2>
+
+      <video
+        id="videoFeed"
+        autoplay
+        playsinline>
+      </video>
+
+      <div class="camera-actions">
+
+        <button
+          type="button"
+          id="captureBtn">
+          Take Photo
+        </button>
+
+        <button
+          type="button"
+          id="closeCameraBtn">
+          Cancel
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <canvas id="photoCanvas" hidden></canvas>
+
+ <script src="../js%20files/profile.js"></script>
+
+</body>
+</html>
