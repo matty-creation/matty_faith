@@ -5,10 +5,8 @@ from app.database.session import get_session
 from app.models.employee import Employee
 from app.schemas.employee import EmployeeCreate, EmployeeResponse
 
-from back_end.app.database import session
-
 router = APIRouter(
-    prefix="/employees"
+    prefix="/employees",
     tags=["Employees"]
 )
 
@@ -39,12 +37,11 @@ def create_employee(
 def get_employees(
         session: Session = Depends(get_session)
 ):
-    employee = session.exec(
+    employees = session.exec(
         select(Employee)
     ).all()
 
-    return employee
-
+    return employees
 
 @router.get("/{employee_id}", response_model=EmployeeResponse)
 def get_employee(employee_id: int, session: Session = Depends(get_session)):
@@ -72,9 +69,14 @@ def update_employee(
             detail="Employee not found"
         )
 
-    employee.name = employee_data.name
+    employee.first_name = employee_data.first_name
+    employee.last_name = employee_data.last_name
+    employee.phone = employee_data.phone
+    employee.position = employee_data.position
+    employee.date_joined = employee_data.date_joined
     employee.email = employee_data.email
-    employee.department_id = employee_data.department_id
+    
+    employee.password = employee_data.password
 
     session.add(employee)
     session.commit()
