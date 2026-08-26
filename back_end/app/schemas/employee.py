@@ -8,6 +8,7 @@ class EmployeeCreate(SQLModel):
     position: str
     date_joined: str
     password: str
+    department_id: int
 
 class EmployeeResponse(SQLModel):
     employee_id:int
