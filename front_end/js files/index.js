@@ -104,7 +104,6 @@ function showAlert(message) {
     alertBox.style.display = "block";
 }
 
-
 function showLogin(event) {
 
     if (event) {
