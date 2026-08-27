@@ -1,133 +1,237 @@
 let activeUser = null;
 
-    try {
-      const rawData = localStorage.getItem('activeUser');
-      if (rawData) activeUser = JSON.parse(rawData);
-    } catch (e) {
-      activeUser = null;
-    }
+try {
+  const rawData = localStorage.getItem("activeUser");
 
-    if (activeUser && activeUser.firstName) {
-      const firstName = activeUser.firstName;
-      const lastName = activeUser.lastName || '';
-      document.getElementById('userName').textContent = `${firstName} ${lastName}`.trim();
-      
+  if (rawData) {
+    activeUser = JSON.parse(rawData);
+  }
+} catch (error) {
+  activeUser = null;
+}
+
+if (
+  activeUser &&
+  activeUser.employee_id &&
+  activeUser.first_name &&
+  activeUser.last_name &&
+  activeUser.email
+) {
+  const firstName = activeUser.first_name;
+  const lastName = activeUser.last_name;
+
+  const userName = document.getElementById("userName");
+  const userAvatar = document.getElementById("userAvatar");
+
+  if (userName) {
+    userName.textContent = `${firstName} ${lastName}`.trim();
+  }
+
+  if (userAvatar) {
       const firstInitial = firstName.charAt(0).toUpperCase();
-      const lastInitial = lastName ? lastName.charAt(0).toUpperCase() : '';
-      document.getElementById('userAvatar').textContent = `${firstInitial}${lastInitial}`;
-    } else {
-      localStorage.removeItem('activeUser');
-      window.location.href = 'index.html';
-    }
+    const lastInitial = lastName.charAt(0).toUpperCase();
 
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      localStorage.removeItem('activeUser');
-      window.location.href = 'index.html';
+    userAvatar.textContent = `${firstInitial}${lastInitial}`;
+  }
+} else {
+  localStorage.removeItem("activeUser");
+  window.location.href = "index.html";
+}
+
+const logoutBtn = document.getElementById("logoutBtn");
+
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", function () {
+    localStorage.removeItem("activeUser");
+    window.location.href = "index.html";
     });
+}
 
-    const liveTimeEl = document.getElementById('liveTime');
-    const liveDateEl = document.getElementById('liveDate');
-    const toggleClockBtn = document.getElementById('toggleClockBtn');
-    const statusBadge = document.getElementById('statusBadge');
-    const logsBody = document.getElementById('logsBody');
-    const noRecordsMsg = document.getElementById('noRecordsMsg');
+const liveTimeEl = document.getElementById("liveTime");
+const liveDateEl = document.getElementById("liveDate");
+const toggleClockBtn = document.getElementById("toggleClockBtn");
+const statusBadge = document.getElementById("statusBadge");
+const logsBody = document.getElementById("logsBody");
+const noRecordsMsg = document.getElementById("noRecordsMsg");
 
-    const storageKeyLogs = `logs_${activeUser.email}`;
-    const storageKeyShift = `shift_${activeUser.email}`;
+const storageKeyLogs = `logs_${activeUser.email}`;
+const storageKeyShift = `shift_${activeUser.email}`;
 
-    function updateLiveClock() {
-      const now = new Date();
+function updateLiveClock() {
+  const now = new Date();
+
+  if (liveTimeEl) {
       liveTimeEl.textContent = now.toLocaleTimeString();
-      liveDateEl.textContent = now.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     }
-    setInterval(updateLiveClock, 1000);
-    updateLiveClock();
 
-    function getLogs() {
+  if (liveDateEl) {
+    liveDateEl.textContent = now.toLocaleDateString(undefined, {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    });
+  }
+}
+
+setInterval(updateLiveClock, 1000);
+updateLiveClock();
+
+function getLogs() {
+  try {
       return JSON.parse(localStorage.getItem(storageKeyLogs)) || [];
+    } catch (error) {
+      return [];
     }
+}
 
-    function saveLogs(logs) {
-      localStorage.setItem(storageKeyLogs, JSON.stringify(logs));
-    }
+function saveLogs(logs) {
+  localStorage.setItem(storageKeyLogs, JSON.stringify(logs));
+}
 
-    function renderLogs() {
-      const logs = getLogs();
-      logsBody.innerHTML = '';
+function renderLogs() {
+  const logs = getLogs();
 
-      if (logs.length === 0) {
-        noRecordsMsg.style.display = 'block';
+  if (!logsBody) {
+    return;
+  }
+
+  logsBody.innerHTML = "";
+
+  if (logs.length === 0) {
+      if (noRecordsMsg) {
+        noRecordsMsg.style.display = "block";
+      }
+
         return;
-      }
-
-      noRecordsMsg.style.display = 'none';
-      logs.slice().reverse().forEach(log => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${log.date}</td>
-          <td>${log.arrival}</td>
-          <td>${log.departure}</td>
-          <td><strong>${log.duration}</strong></td>
-        `;
-        logsBody.appendChild(row);
-      });
     }
 
-    function updateShiftUI() {
-      const activeShift = localStorage.getItem(storageKeyShift);
-      if (activeShift) {
-        const shiftData = JSON.parse(activeShift);
-        statusBadge.textContent = `Clocked In (${shiftData.arrival})`;
-        statusBadge.classList.add('working');
-        toggleClockBtn.textContent = 'Clock Out';
-        toggleClockBtn.classList.add('clocked-in');
-      } else {
-        statusBadge.textContent = 'Clocked Out';
-        statusBadge.classList.remove('working');
-        toggleClockBtn.textContent = 'Clock In';
-        toggleClockBtn.classList.remove('clocked-in');
-      }
-    }
+  if (noRecordsMsg) {
+    noRecordsMsg.style.display = "none";
+  }
 
-    toggleClockBtn.addEventListener('click', () => {
-      const activeShift = localStorage.getItem(storageKeyShift);
-      const now = new Date();
+  logs
+    .slice()
+    .reverse()
+    .forEach(function (log) {
+      const row = document.createElement("tr");
+
+      row.innerHTML = `
+                <td>${log.date}</td>
+                <td>${log.arrival}</td>
+                <td>${log.departure}</td>
+                <td><strong>${log.duration}</strong></td>
+            `;
+
+          logsBody.appendChild(row);
+        });
+}
+
+function updateShiftUI() {
+  if (!statusBadge || !toggleClockBtn) {
+    return;
+  }
+
+  const activeShift = localStorage.getItem(storageKeyShift);
+
+  if (activeShift) {
+      try {
+          const shiftData = JSON.parse(activeShift);
+
+          statusBadge.textContent = `Clocked In (${shiftData.arrival})`;
+        statusBadge.classList.add("working");
+
+        toggleClockBtn.textContent = "Clock Out";
+        toggleClockBtn.classList.add("clocked-in");
+      } catch (error) {
+        localStorage.removeItem(storageKeyShift);
+
+        statusBadge.textContent = "Clocked Out";
+        statusBadge.classList.remove("working");
+
+        toggleClockBtn.textContent = "Clock In";
+        toggleClockBtn.classList.remove("clocked-in");
+      }
+    } else {
+    statusBadge.textContent = "Clocked Out";
+    statusBadge.classList.remove("working");
+
+    toggleClockBtn.textContent = "Clock In";
+    toggleClockBtn.classList.remove("clocked-in");
+  }
+}
+
+if (toggleClockBtn) {
+  toggleClockBtn.addEventListener("click", function () {
+    const activeShift = localStorage.getItem(storageKeyShift);
+    const now = new Date();
 
       if (!activeShift) {
         const shiftData = {
           startTimeIso: now.toISOString(),
           date: now.toLocaleDateString(),
-          arrival: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        };
-        localStorage.setItem(storageKeyShift, JSON.stringify(shiftData));
-      } else {
-        const shiftData = JSON.parse(activeShift);
-        const startTime = new Date(shiftData.startTimeIso);
-        const departureTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+              arrival: now.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit"
+              })
+            };
 
-        const diffMs = now - startTime;
-        const totalMinutes = Math.floor(diffMs / (1000 * 60));
-        const hrs = Math.floor(totalMinutes / 60);
-        const mins = totalMinutes % 60;
-        const durationStr = `${hrs}h ${mins}m`;
+          localStorage.setItem(
+            storageKeyShift,
+            JSON.stringify(shiftData)
+          );
+        } else {
+          try {
+              const shiftData = JSON.parse(activeShift);
 
-        const newLog = {
-          date: shiftData.date,
-          arrival: shiftData.arrival,
-          departure: departureTime,
-          duration: durationStr
-        };
+              const startTime = new Date(
+                shiftData.startTimeIso
+              );
 
-        const logs = getLogs();
-        logs.push(newLog);
-        saveLogs(logs);
+              const departureTime = now.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit"
+              });
 
-        localStorage.removeItem(storageKeyShift);
-      }
+              const diffMs = now - startTime;
+
+              const totalMinutes = Math.floor(
+                diffMs / (1000 * 60)
+              );
+
+              const hours = Math.floor(totalMinutes / 60);
+              const minutes = totalMinutes % 60;
+
+              const durationStr = `${hours}h ${minutes}m`;
+
+              const newLog = {
+                date: shiftData.date,
+                arrival: shiftData.arrival,
+                departure: departureTime,
+                duration: durationStr
+              };
+
+              const logs = getLogs();
+
+              logs.push(newLog);
+
+              saveLogs(logs);
+
+              localStorage.removeItem(storageKeyShift);
+            } catch (error) {
+              console.error(
+                "Error processing attendance:",
+                error
+              );
+
+              localStorage.removeItem(storageKeyShift);
+            }
+        }
 
       updateShiftUI();
       renderLogs();
     });
+}
 
-    updateShiftUI();
-    renderLogs();
+updateShiftUI();
+renderLogs();

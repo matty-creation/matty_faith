@@ -1,3 +1,6 @@
+
+const API_BASE_URL = "http://127.0.0.1:8000";
+
 try {
     const activeSession = JSON.parse(
         localStorage.getItem("activeUser")
@@ -5,811 +8,582 @@ try {
 
     if (
         activeSession &&
-        activeSession.email &&
-        activeSession.firstName
+        (activeSession.employee_id || activeSession.email)
     ) {
         window.location.href = "dashboard.html";
     }
-
 } catch (error) {
-
     localStorage.removeItem("activeUser");
 }
 
+const loginTab = document.getElementById("loginTab");
+const signupTab = document.getElementById("signupTab");
 
-const loginTab =
-    document.getElementById("loginTab");
+const loginForm = document.getElementById("loginForm");
+const signupForm = document.getElementById("signupForm");
 
-const signupTab =
-    document.getElementById("signupTab");
+const gotoSignup = document.getElementById("gotoSignup");
+const gotoLogin = document.getElementById("gotoLogin");
 
-const loginForm =
-    document.getElementById("loginForm");
+const alertBox = document.getElementById("alertBox");
 
-const signupForm =
-    document.getElementById("signupForm");
-
-const gotoSignup =
-    document.getElementById("gotoSignup");
-
-const gotoLogin =
-    document.getElementById("gotoLogin");
-
-const alertBox =
-    document.getElementById("alertBox");
-
-
-const firstnameInput =
-    document.getElementById("first-name");
-
-const lastnameInput =
-    document.getElementById("last-name");
-
-const phoneInput =
-    document.getElementById("phone");
-
-const phoneError =
-    document.getElementById("phone-error");
-
-const emailInput =
-    document.getElementById("signup-email");
-
-const emailError =
-    document.getElementById("signup-email-error");
-
-const passwordInput =
-    document.getElementById("signup-password");
-
-const passwordError =
-    document.getElementById("signup-password-error");
-
-const confirmPasswordInput =
-    document.getElementById("confirm-password");
-
-const confirmPasswordError =
-    document.getElementById("confirm-password-error");
-
-const passwordRequirements =
-    document.getElementById("password-requirements");
-
-
-const iti = window.intlTelInput(
-    phoneInput,
-    {
-        initialCountry: "tz",
-        separateDialCode: true,
-        preferredCountries: [
-            "tz",
-            "ke",
-            "ug"
-        ],
-        utilsScript:
-            "https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"
-    }
-);
-
+const phoneInput = document.getElementById("phone");
 
 function hideAlert() {
-
-    alertBox.style.display = "none";
-
-    alertBox.innerText = "";
+    if (alertBox) {
+        alertBox.style.display = "none";
+        alertBox.innerText = "";
+    }
 }
-
 
 function showAlert(message) {
-
-    alertBox.innerText = message;
-
-    alertBox.style.display = "block";
+    if (alertBox) {
+        alertBox.innerText = message;
+        alertBox.style.display = "block";
+    }
 }
 
-function showLogin(event) {
-
-    if (event) {
-        event.preventDefault();
-    }
-
+function showLogin() {
     hideAlert();
 
-    loginTab.classList.add("active");
-
-    signupTab.classList.remove("active");
-
-    loginForm.classList.add("active");
-
-    signupForm.classList.remove("active");
-}
-
-
-function showSignup(event) {
-
-    if (event) {
-        event.preventDefault();
+    if (loginTab) {
+        loginTab.classList.add("active");
     }
 
-    hideAlert();
+    if (signupTab) {
+        signupTab.classList.remove("active");
+    }
 
-    signupTab.classList.add("active");
+    if (loginForm) {
+        loginForm.classList.add("active");
+    }
 
-    loginTab.classList.remove("active");
-
-    signupForm.classList.add("active");
-
-    loginForm.classList.remove("active");
+    if (signupForm) {
+        signupForm.classList.remove("active");
+    }
 }
 
+function showSignup() {
+    hideAlert();
 
-loginTab.addEventListener(
-    "click",
-    showLogin
-);
+    if (signupTab) {
+        signupTab.classList.add("active");
+    }
 
-signupTab.addEventListener(
-    "click",
-    showSignup
-);
+    if (loginTab) {
+        loginTab.classList.remove("active");
+    }
 
-gotoSignup.addEventListener(
-    "click",
-    showSignup
-);
+    if (signupForm) {
+        signupForm.classList.add("active");
+    }
 
-gotoLogin.addEventListener(
-    "click",
-    showLogin
-);
+    if (loginForm) {
+        loginForm.classList.remove("active");
+    }
+}
 
+if (loginTab) {
+    loginTab.addEventListener("click", showLogin);
+}
 
-function capitalizeName(value) {
+if (signupTab) {
+    signupTab.addEventListener("click", showSignup);
+}
 
+if (gotoSignup) {
+    gotoSignup.addEventListener("click", showSignup);
+}
+
+if (gotoLogin) {
+    gotoLogin.addEventListener("click", showLogin);
+}
+
+function formatName(value) {
     return value
         .toLowerCase()
-        .replace(
-            /\b\w/g,
-            function(letter) {
-                return letter.toUpperCase();
+        .replace(/\s+/g, " ")
+        .trim()
+        .split(" ")
+        .map(function (word) {
+            if (!word) {
+                return "";
             }
-        );
+
+            return word.charAt(0).toUpperCase() + word.slice(1);
+        })
+        .join(" ");
 }
 
+const firstNameInput = document.getElementById("first-name");
+const lastNameInput = document.getElementById("last-name");
 
-firstnameInput.addEventListener(
-    "input",
-    function() {
+if (firstNameInput) {
+    firstNameInput.addEventListener("input", function () {
+        const value = this.value;
 
-        this.value =
-            capitalizeName(this.value);
-
-    }
-);
-
-
-lastnameInput.addEventListener(
-    "input",
-    function() {
-
-        this.value =
-            capitalizeName(this.value);
-
-    }
-);
-
-
-phoneInput.addEventListener(
-    "input",
-    function() {
-
-        let numbers =
-            this.value.replace(/\D/g, "");
-
-        numbers =
-            numbers.substring(0, 10);
-
-        if (numbers.length > 6) {
-
+        if (value.length > 0) {
             this.value =
+                value.charAt(0).toUpperCase() +
+                value.slice(1);
+        }
+    });
+}
+
+if (lastNameInput) {
+    lastNameInput.addEventListener("input", function () {
+        const value = this.value;
+
+        if (value.length > 0) {
+            this.value =
+                value.charAt(0).toUpperCase() +
+                value.slice(1);
+        }
+    });
+}
+
+if (phoneInput) {
+    phoneInput.addEventListener("input", function (event) {
+        let numbers = event.target.value.replace(/\D/g, "");
+
+        numbers = numbers.substring(0, 10);
+
+        if (numbers.length <= 3) {
+            event.target.value = numbers;
+        } else if (numbers.length <= 6) {
+            event.target.value =
+                numbers.substring(0, 3) +
+                " " +
+                numbers.substring(3);
+        } else {
+            event.target.value =
                 numbers.substring(0, 3) +
                 " " +
                 numbers.substring(3, 6) +
                 " " +
-                numbers.substring(6, 10);
-
-        } else if (numbers.length > 3) {
-
-            this.value =
-                numbers.substring(0, 3) +
-                " " +
-                numbers.substring(3, 6);
-
-        } else {
-
-            this.value = numbers;
+                numbers.substring(6);
         }
-
-    }
-);
-
-
-function validateEmail() {
-
-    const email =
-        emailInput.value.trim();
-
-    const emailPattern =
-        /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-
-
-    if (email === "") {
-
-        emailError.innerText = "";
-
-        emailError.className =
-            "validation-message";
-
-        return false;
-    }
-
-
-    if (!emailPattern.test(email)) {
-
-        emailError.innerText =
-            "Invalid email";
-
-        emailError.className =
-            "validation-message error";
-
-        return false;
-    }
-
-
-    emailError.innerText =
-        "Valid email";
-
-    emailError.className =
-        "validation-message success";
-
-    return true;
+    });
 }
 
-
-emailInput.addEventListener(
-    "input",
-    validateEmail
-);
-
-
-passwordInput.addEventListener(
-    "focus",
-    function() {
-
-        passwordRequirements.classList.add(
-            "show"
-        );
-
-    }
-);
-
-
-passwordInput.addEventListener(
-    "input",
-    function() {
-
-        passwordRequirements.classList.add(
-            "show"
-        );
-
-        validatePassword();
-
-    }
-);
-
-
-function updateRequirement(
-    id,
-    valid
-) {
-
-    const requirement =
-        document.getElementById(id);
-
-    if (!requirement) {
-        return;
-    }
-
-
-    if (valid) {
-
-        requirement.classList.add(
-            "valid"
-        );
-
-        requirement.classList.remove(
-            "invalid"
-        );
-
-    } else {
-
-        requirement.classList.remove(
-            "valid"
-        );
-
-        requirement.classList.add(
-            "invalid"
-        );
-    }
-}
-
-
-function validatePassword() {
-
-    const password =
-        passwordInput.value;
-
-
-    const lengthCheck =
-        password.length >= 6 &&
-        password.length <= 20;
-
-
-    const caseCheck =
-        /[a-z]/.test(password) &&
-        /[A-Z]/.test(password);
-
-
-    const numberCheck =
-        /[0-9]/.test(password);
-
-
-    const specialCheck =
-        /[!@#$%^&*(),.?":{}|<>_\-+=]/.test(
-            password
-        );
-
-
-    const spaceCheck =
-        !/\s/.test(password);
-
-
-    updateRequirement(
-        "length-check",
-        lengthCheck
-    );
-
-    updateRequirement(
-        "case-check",
-        caseCheck
-    );
-
-    updateRequirement(
-        "number-check",
-        numberCheck
-    );
-
-    updateRequirement(
-        "special-check",
-        specialCheck
-    );
-
-    updateRequirement(
-        "space-check",
-        spaceCheck
-    );
-
-
-    const valid =
-        lengthCheck &&
-        caseCheck &&
-        numberCheck &&
-        specialCheck &&
-        spaceCheck
-
-
-    if (password === "") {
-
-        passwordError.innerText = "";
-
-        passwordError.style.display =
-            "none";
-
-    } else if (!valid) {
-
-        passwordError.innerText =
-            "Password does not meet all requirements.";
-
-        passwordError.style.display =
-            "block";
-
-        passwordError.className =
-            "validation-message error";
-
-    } else {
-
-        passwordError.innerText =
-            "Password is valid.";
-
-        passwordError.style.display =
-            "block";
-
-        passwordError.className =
-            "validation-message success";
-    }
-
-
-    return valid;
-}
-
-
-function validateConfirmPassword() {
-
-    const password =
-        passwordInput.value;
-
-    const confirmPassword =
-        confirmPasswordInput.value;
-
-
-    if (confirmPassword === "") {
-
-        confirmPasswordError.innerText = "";
-
-        confirmPasswordError.style.display =
-            "none";
-
-        return false;
-    }
-
-
-    if (password !== confirmPassword) {
-
-        confirmPasswordError.innerText =
-            "Passwords do not match.";
-
-        confirmPasswordError.style.display =
-            "block";
-
-        confirmPasswordError.className =
-            "validation-message error";
-
-        return false;
-    }
-
-
-    confirmPasswordError.innerText =
-        "Passwords match.";
-
-    confirmPasswordError.style.display =
-        "block";
-
-    confirmPasswordError.className =
-        "validation-message success";
-
-    return true;
-}
-
-
-confirmPasswordInput.addEventListener(
-    "input",
-    validateConfirmPassword
-);
-
-
-const passwordToggles =
-    document.querySelectorAll(
-        ".password-toggle"
-    );
-
-
-passwordToggles.forEach(
-    function(toggle) {
-
-        toggle.addEventListener(
+function bindPasswordToggle(toggleId, inputId) {
+    const toggleButton =
+        document.getElementById(toggleId);
+
+    const passwordInput =
+        document.getElementById(inputId);
+
+    if (toggleButton && passwordInput) {
+        toggleButton.addEventListener(
             "click",
-            function() {
-
-                const targetId =
-                    this.getAttribute(
-                        "data-target"
-                    );
-
-                const target =
-                    document.getElementById(
-                        targetId
-                    );
-
-                const eye =
-                    this.querySelector(
-                        ".eye-icon"
-                    );
-
-
-                if (
-                    target.type ===
-                    "password"
-                ) {
-
-                    target.type = "text";
-
-                    eye.innerText = "🙈";
-
-                    this.setAttribute(
-                        "aria-label",
-                        "Hide password"
-                    );
-
+            function () {
+                if (passwordInput.type === "password") {
+                    passwordInput.type = "text";
+                    toggleButton.textContent = "🙈";
                 } else {
-
-                    target.type =
-                        "password";
-
-                    eye.innerText = "👁";
-
-                    this.setAttribute(
-                        "aria-label",
-                        "Show password"
-                    );
+                    passwordInput.type = "password";
+                    toggleButton.textContent = "👁️";
                 }
-
             }
         );
-
     }
+}
+
+bindPasswordToggle(
+    "toggleLoginPassword",
+    "login-password"
 );
 
-
-signupForm.addEventListener(
-    "submit",
-    function(event) {
-
-        event.preventDefault();
-
-        hideAlert();
-
-
-        const firstName =
-            capitalizeName(
-                firstnameInput.value.trim()
-            );
-
-
-        const lastName =
-            capitalizeName(
-                lastnameInput.value.trim()
-            );
-
-
-        const email =
-            emailInput.value
-                .toLowerCase()
-                .trim();
-
-
-        const password =
-            passwordInput.value;
-
-
-        const confirmPassword =
-            confirmPasswordInput.value;
-
-
-        const phoneNumber =
-            phoneInput.value.replace(
-                /\D/g,
-                ""
-            );
-
-
-        if (firstName === "") {
-
-            showAlert(
-                "Please enter your first name."
-            );
-
-            firstnameInput.focus();
-
-            return;
-        }
-
-
-        if (lastName === "") {
-
-            showAlert(
-                "Please enter your last name."
-            );
-
-            lastnameInput.focus();
-
-            return;
-        }
-
-
-        if (phoneNumber.length !== 10) {
-
-            phoneError.innerText =
-                "Phone number must contain exactly 10 digits.";
-
-            phoneError.style.display =
-                "block";
-
-            phoneError.className =
-                "validation-message error";
-
-            phoneInput.focus();
-
-            return;
-        }
-
-
-        phoneError.innerText =
-            "Valid phone number.";
-
-        phoneError.style.display =
-            "block";
-
-        phoneError.className =
-            "validation-message success";
-
-
-        if (!validateEmail()) {
-
-            emailInput.focus();
-
-            return;
-        }
-
-
-        if (!validatePassword()) {
-
-            passwordInput.focus();
-
-            passwordRequirements.classList.add(
-                "show"
-            );
-
-            return;
-        }
-
-
-        if (!validateConfirmPassword()) {
-
-            confirmPasswordInput.focus();
-
-            return;
-        }
-
-
-        const existingUser =
-            localStorage.getItem(
-                `user_${email}`
-            );
-
-
-        if (existingUser) {
-
-            showAlert(
-                "An account with this email already exists. Please sign in."
-            );
-
-            return;
-        }
-
-
-        const userData = {
-
-            firstName: firstName,
-
-            lastName: lastName,
-
-            phone: phoneNumber,
-
-            countryCode:
-                iti
-                    .getSelectedCountryData()
-                    .dialCode,
-
-            email: email,
-
-            password: password
-        };
-
-
-        localStorage.setItem(
-            `user_${email}`,
-            JSON.stringify(userData)
-        );
-
-
-        localStorage.setItem(
-            "activeUser",
-            JSON.stringify(userData)
-        );
-
-
-        window.location.href =
-            "dashboard.html";
-
-    }
+bindPasswordToggle(
+    "toggleSignupPassword",
+    "signup-password"
 );
 
-
-loginForm.addEventListener(
-    "submit",
-    function(event) {
-
-        event.preventDefault();
-
-        hideAlert();
-
-
-        const email =
-            document
-                .getElementById("login-email")
-                .value
-                .toLowerCase()
-                .trim();
-
-
-        const password =
-            document
-                .getElementById("login-password")
-                .value;
-
-
-        const storedUser =
-            localStorage.getItem(
-                `user_${email}`
-            );
-
-
-        if (!storedUser) {
-
-            showAlert(
-                "No account found with this email. Please register first."
-            );
-
-            return;
-        }
-
-
-        let userData;
-
-
-        try {
-
-            userData =
-                JSON.parse(storedUser);
-
-        } catch (error) {
-
-            showAlert(
-                "Account data error. Please register again."
-            );
-
-            return;
-        }
-
-
-        if (
-            userData.password !==
-            password
-        ) {
-
-            showAlert(
-                "Incorrect password. Please try again."
-            );
-
-            return;
-        }
-
-
-        localStorage.setItem(
-            "activeUser",
-            JSON.stringify(userData)
-        );
-
-
-        window.location.href =
-            "dashboard.html";
-
-    }
+bindPasswordToggle(
+    "toggleConfirmPassword",
+    "confirm-password"
 );
+
+function validateName(name, fieldName) {
+    name = name.trim();
+
+    if (!name) {
+        return fieldName + " is required.";
+    }
+
+    if (!/^[A-Z]/.test(name)) {
+        return (
+            fieldName +
+            " must start with a capital letter."
+        );
+    }
+
+    if (!/^[A-Za-z ]+$/.test(name)) {
+        return (
+            fieldName +
+            " can contain letters and spaces only."
+        );
+    }
+
+    return null;
+}
+
+function validateEmail(email) {
+    email = email.trim().toLowerCase();
+
+    const emailPattern =
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(email)) {
+        return (
+            "Please enter a valid email address, " +
+            "for example: john@example.com."
+        );
+    }
+
+    return null;
+}
+
+function validatePhone(phone) {
+    const phoneNumber =
+        phone.replace(/\D/g, "");
+
+    if (!/^\d{10}$/.test(phoneNumber)) {
+        return "Phone number must contain exactly 10 digits.";
+    }
+
+    return null;
+}
+
+function validatePassword(password) {
+    if (password.length < 6) {
+        return "Password must be at least 6 characters.";
+    }
+
+    if (!/[A-Z]/.test(password)) {
+        return "Password must contain at least one uppercase letter.";
+    }
+
+    if (!/[a-z]/.test(password)) {
+        return "Password must contain at least one lowercase letter.";
+    }
+
+    if (!/[0-9]/.test(password)) {
+        return "Password must contain at least one number.";
+    }
+
+    if (!/[!@#$%^&*(),.?":{}|<>\_\-]/.test(password)) {
+        return "Password must contain at least one special character.";
+    }
+
+    return null;
+}
+
+function displayBackendError(data) {
+    if (!data || !data.detail) {
+        return "Something went wrong. Please try again.";
+    }
+
+    if (typeof data.detail === "string") {
+        return data.detail;
+    }
+
+    if (Array.isArray(data.detail)) {
+        return data.detail
+            .map(function (error) {
+                return error.msg || "Validation error.";
+            })
+            .join(" ");
+    }
+
+    return "Please check your information and try again.";
+}
+
+if (signupForm) {
+    signupForm.addEventListener(
+        "submit",
+        async function (event) {
+            event.preventDefault();
+
+            hideAlert();
+
+            const firstNameInput =
+                document.getElementById("first-name");
+
+            const lastNameInput =
+                document.getElementById("last-name");
+
+            const phoneInput =
+                document.getElementById("phone");
+
+            const emailInput =
+                document.getElementById("signup-email");
+
+            const addressInput =
+                document.getElementById("address");
+
+            const positionInput =
+                document.getElementById("position");
+
+            const dateJoinedInput =
+                document.getElementById("date-joined");
+
+            const passwordInput =
+                document.getElementById("signup-password");
+
+            const confirmPasswordInput =
+                document.getElementById("confirm-password");
+
+            const firstName =
+                formatName(firstNameInput.value);
+
+            const lastName =
+                formatName(lastNameInput.value);
+
+            const phone =
+                phoneInput.value.trim();
+
+            const email =
+                emailInput.value
+                    .trim()
+                    .toLowerCase();
+
+            const address =
+                addressInput.value.trim();
+
+            const position =
+                positionInput.value.trim();
+
+            const dateJoined =
+                dateJoinedInput.value;
+
+            const password =
+                passwordInput.value;
+
+            const confirmPassword =
+                confirmPasswordInput.value;
+
+            firstNameInput.value = firstName;
+            lastNameInput.value = lastName;
+
+            if (
+                !firstName ||
+                !lastName ||
+                !phone ||
+                !email ||
+                !address ||
+                !position ||
+                !dateJoined ||
+                !password ||
+                !confirmPassword
+            ) {
+                showAlert(
+                    "Please fill in all required fields."
+                );
+                return;
+            }
+
+            let error = validateName(
+                firstName,
+                "First name"
+            );
+
+            if (error) {
+                showAlert(error);
+                return;
+            }
+
+            error = validateName(
+                lastName,
+                "Last name"
+            );
+
+            if (error) {
+                showAlert(error);
+                return;
+            }
+
+            error = validateEmail(email);
+
+            if (error) {
+                showAlert(error);
+                return;
+            }
+
+            error = validatePhone(phone);
+
+            if (error) {
+                showAlert(error);
+                return;
+            }
+
+            error = validatePassword(password);
+
+            if (error) {
+                showAlert(error);
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showAlert(
+                    "Passwords do not match."
+                );
+                return;
+            }
+
+            const phoneNumber =
+                phone.replace(/\D/g, "");
+
+            const payload = {
+                first_name: firstName,
+                last_name: lastName,
+                email: email,
+                phone: phoneNumber,
+                position: position,
+                date_joined: dateJoined,
+                password: password
+            };
+
+            try {
+                const response = await fetch(
+                    `${API_BASE_URL}/employees/`,
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify(payload)
+                    }
+                );
+
+                const data =
+                    await response.json();
+
+                if (!response.ok) {
+                    showAlert(
+                        displayBackendError(data)
+                    );
+                    return;
+                }
+
+                localStorage.setItem(
+                    "activeUser",
+                    JSON.stringify(data)
+                );
+
+                showAlert(
+                    "Account created successfully!"
+                );
+
+                setTimeout(function () {
+                    window.location.href =
+                        "dashboard.html";
+                }, 800);
+
+            } catch (error) {
+                console.error(
+                    "Registration Error:",
+                    error
+                );
+
+                showAlert(
+                    "Could not connect to the backend server. Make sure FastAPI is running."
+                );
+            }
+        }
+    );
+}
+
+if (loginForm) {
+    loginForm.addEventListener(
+        "submit",
+        async function (event) {
+            event.preventDefault();
+
+            hideAlert();
+
+            const email =
+                document
+                    .getElementById("login-email")
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+            const password =
+                document
+                    .getElementById("login-password")
+                    .value;
+
+            if (!email || !password) {
+                showAlert(
+                    "Please enter your email and password."
+                );
+                return;
+            }
+
+            const emailError =
+                validateEmail(email);
+
+            if (emailError) {
+                showAlert(emailError);
+                return;
+            }
+
+            try {
+                const response = await fetch(
+                    `${API_BASE_URL}/employees/login`,
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            email: email,
+                            password: password
+                        })
+                    }
+                );
+
+                const data =
+                    await response.json();
+
+                if (!response.ok) {
+                    showAlert(
+                        displayBackendError(data)
+                    );
+                    return;
+                }
+
+                localStorage.setItem(
+                    "activeUser",
+                    JSON.stringify(data)
+                );
+
+                showAlert(
+                    "Login successful!"
+                );
+
+                setTimeout(function () {
+                    window.location.href =
+                        "dashboard.html";
+                }, 500);
+
+            } catch (error) {
+                console.error(
+                    "Login Error:",
+                    error
+                );
+
+                showAlert(
+                    "Could not connect to the backend server. Make sure FastAPI is running."
+                );
+            }
+        }
+    );
+}
