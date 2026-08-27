@@ -1,13 +1,13 @@
-const activeUserData = localStorage.getItem("activeUser");
-
-if (!activeUserData) {
-    window.location.href = "index.html";
-}
-
-let user;
+let user = null;
 
 try {
-    user = JSON.parse(activeUserData);
+    const rawData = localStorage.getItem("activeUser");
+
+    if (!rawData) {
+        window.location.href = "index.html";
+    } else {
+        user = JSON.parse(rawData);
+    }
 } catch (error) {
     localStorage.removeItem("activeUser");
     window.location.href = "index.html";
@@ -18,10 +18,8 @@ if (!user || !user.email) {
     window.location.href = "index.html";
 }
 
-// Elements
 const headerUserName = document.getElementById("headerUserName");
 const headerAvatar = document.getElementById("headerAvatar");
-
 const profileAvatar = document.getElementById("profileAvatar");
 const profileFullName = document.getElementById("profileFullName");
 const profileUsername = document.getElementById("profileUsername");
@@ -36,12 +34,14 @@ const departmentInput = document.getElementById("prof-department");
 const editProfileBtn = document.getElementById("editProfileBtn");
 const profileForm = document.getElementById("profileForm");
 const successMessage = document.getElementById("successMessage");
-const themeToggleBtn = document.getElementById("themeToggleBtn");
-const uploadInput = document.getElementById("uploadInput");
 
+const themeToggleBtn = document.getElementById("themeToggleBtn");
+
+const uploadInput = document.getElementById("uploadInput");
 const openCameraBtn = document.getElementById("openCameraBtn");
 const closeCameraBtn = document.getElementById("closeCameraBtn");
 const captureBtn = document.getElementById("captureBtn");
+
 const cameraModal = document.getElementById("cameraModal");
 const videoFeed = document.getElementById("videoFeed");
 const photoCanvas = document.getElementById("photoCanvas");
@@ -49,98 +49,196 @@ const photoCanvas = document.getElementById("photoCanvas");
 let cameraStream = null;
 let editing = false;
 
+function getUserValue(snakeCase, camelCase = null) {
+    if (user[snakeCase] !== undefined && user[snakeCase] !== null) {
+        return user[snakeCase];
+    }
+
+    if (camelCase && user[camelCase] !== undefined) {
+        return user[camelCase];
+    }
+
+    return "";
+}
+
 function getInitials(firstName, lastName) {
-    const first = firstName ? firstName.charAt(0).toUpperCase() : "";
-    const last = lastName ? lastName.charAt(0).toUpperCase() : "";
+    const first = firstName
+        ? firstName.charAt(0).toUpperCase()
+        : "";
+
+    const last = lastName
+        ? lastName.charAt(0).toUpperCase()
+        : "";
+
     return (first + last) || "U";
 }
 
-// Automatically populates user details upon entering page
 function displayUser() {
-    const firstName = user.firstName || user.first_name || "";
-    const lastName = user.lastName || user.last_name || "";
-    const fullName = `${firstName} ${lastName}`.trim() || "User";
+    const firstName = getUserValue("first_name", "firstName");
+    const lastName = getUserValue("last_name", "lastName");
+    const email = user.email || "";
+    const phone = getUserValue("phone", "phoneNumber");
+    const position = user.position || "";
+    const department = user.department || user.sector || "";
 
-    // Fallback: Use username, or generate one from email prefix, or default to "user"
-    const username = user.username || (user.email ? user.email.split("@")[0] : "User");
+    const username =
+        user.username ||
+        email.split("@")[0];
 
-    if (headerUserName) headerUserName.innerText = fullName;
-    if (profileFullName) profileFullName.innerText = fullName;
-    if (profileUsername) profileUsername.innerText = `@${username}`;
+    const fullName =
+        `${firstName} ${lastName}`.trim() || "User";
 
-    if (firstNameInput) firstNameInput.value = firstName;
-    if (lastNameInput) lastNameInput.value = lastName;
-    if (usernameInput) usernameInput.value = username;
-    if (emailInput) emailInput.value = user.email || "";
-    if (phoneInput) phoneInput.value = user.phone || user.phoneNumber || "";
-    if (departmentInput) departmentInput.value = user.department || user.sector || "";
+    if (headerUserName) {
+        headerUserName.textContent = fullName;
+    }
+
+    if (profileFullName) {
+        profileFullName.textContent = fullName;
+    }
+
+    if (profileUsername) {
+        profileUsername.textContent = `@${username}`;
+    }
+
+    if (firstNameInput) {
+        firstNameInput.value = firstName;
+    }
+
+    if (lastNameInput) {
+        lastNameInput.value = lastName;
+    }
+
+    if (usernameInput) {
+        usernameInput.value = username;
+    }
+
+    if (emailInput) {
+        emailInput.value = email;
+    }
+
+    if (phoneInput) {
+        phoneInput.value = phone;
+    }
+
+    if (departmentInput) {
+        departmentInput.value = department || position;
+    }
 
     const initials = getInitials(firstName, lastName);
-    if (headerAvatar) headerAvatar.innerText = initials;
-    if (profileAvatar) profileAvatar.innerText = initials;
+
+    if (headerAvatar) {
+        headerAvatar.textContent = initials;
+    }
+
+    if (profileAvatar) {
+        profileAvatar.textContent = initials;
+    }
 
     if (user.profilePhoto) {
         setProfilePhoto(user.profilePhoto);
     }
 }
 
-
 function setProfilePhoto(photo) {
     if (headerAvatar) {
         headerAvatar.innerHTML = "";
-        const headerImage = document.createElement("img");
-        headerImage.src = photo;
-        headerImage.alt = "Profile Photo";
-        headerAvatar.appendChild(headerImage);
+
+        const image = document.createElement("img");
+        image.src = photo;
+        image.alt = "Profile Photo";
+
+        headerAvatar.appendChild(image);
     }
 
     if (profileAvatar) {
         profileAvatar.innerHTML = "";
-        const profileImage = document.createElement("img");
-        profileImage.src = photo;
-        profileImage.alt = "Profile Photo";
-        profileAvatar.appendChild(profileImage);
+
+        const image = document.createElement("img");
+        image.src = photo;
+        image.alt = "Profile Photo";
+
+        profileAvatar.appendChild(image);
     }
 }
 
 function enableEditing() {
     editing = true;
-    if (departmentInput) departmentInput.readOnly = false;
-    if (phoneInput) phoneInput.readOnly = false;
-    
-    editProfileBtn.innerText = "Save Changes";
+
+    firstNameInput.readOnly = false;
+    lastNameInput.readOnly = false;
+    phoneInput.readOnly = false;
+    departmentInput.readOnly = false;
+
+    editProfileBtn.textContent = "Save Changes";
+
     successMessage.style.display = "none";
-    if (departmentInput) departmentInput.focus();
+
+    firstNameInput.focus();
 }
 
 function saveProfile() {
-    const newDepartment = departmentInput ? departmentInput.value.trim() : "";
-    const newPhone = phoneInput ? phoneInput.value.trim() : "";
+    const firstName = firstNameInput.value.trim();
+    const lastName = lastNameInput.value.trim();
+    const phone = phoneInput.value.trim();
+    const department = departmentInput.value.trim();
 
-    user.department = newDepartment;
-    user.phone = newPhone;
+    if (!firstName || !lastName) {
+        showMessage("First name and last name are required.");
+        return;
+    }
 
-    localStorage.setItem("activeUser", JSON.stringify(user));
-    localStorage.setItem(`user_${user.email}`, JSON.stringify(user));
+    const phoneNumber = phone.replace(/\D/g, "");
+
+    if (phoneNumber.length !== 10) {
+        showMessage("Phone number must contain exactly 10 digits.");
+        return;
+    }
+
+    user.first_name = firstName;
+    user.last_name = lastName;
+    user.phone = phoneNumber;
+    user.department = department;
+
+    user.firstName = firstName;
+    user.lastName = lastName;
+
+    localStorage.setItem(
+        "activeUser",
+        JSON.stringify(user)
+    );
+
+    localStorage.setItem(
+        `user_${user.email}`,
+        JSON.stringify(user)
+    );
 
     editing = false;
-    if (departmentInput) departmentInput.readOnly = true;
-    if (phoneInput) phoneInput.readOnly = true;
-    
-    editProfileBtn.innerText = "Edit Profile";
 
-    successMessage.innerText = "Profile changes saved successfully.";
+    firstNameInput.readOnly = true;
+    lastNameInput.readOnly = true;
+    phoneInput.readOnly = true;
+    departmentInput.readOnly = true;
+
+    editProfileBtn.textContent = "Edit Profile";
+
+    displayUser();
+
+    showMessage("Profile changes saved successfully.");
+}
+
+function showMessage(message) {
+    successMessage.textContent = message;
     successMessage.style.display = "block";
 
-    setTimeout(function() {
+    setTimeout(function () {
         successMessage.style.display = "none";
     }, 3000);
 }
 
-// Event Listeners
 if (editProfileBtn) {
-    editProfileBtn.addEventListener("click", function(event) {
+    editProfileBtn.addEventListener("click", function (event) {
         event.preventDefault();
+
         if (!editing) {
             enableEditing();
         } else {
@@ -150,111 +248,208 @@ if (editProfileBtn) {
 }
 
 if (profileForm) {
-    profileForm.addEventListener("submit", function(event) {
+    profileForm.addEventListener("submit", function (event) {
         event.preventDefault();
-    });
-}
 
-if (uploadInput) {
-    uploadInput.addEventListener("change", function() {
-        const file = this.files[0];
-        if (!file || !file.type.startsWith("image/")) return;
-
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            const photo = event.target.result;
-            user.profilePhoto = photo;
-            localStorage.setItem("activeUser", JSON.stringify(user));
-            localStorage.setItem(`user_${user.email}`, JSON.stringify(user));
-
-            setProfilePhoto(photo);
-            successMessage.innerText = "Profile photo updated successfully.";
-            successMessage.style.display = "block";
-            setTimeout(() => { successMessage.style.display = "none"; }, 3000);
-        };
-        reader.readAsDataURL(file);
-    });
-}
-
-// Camera controls
-if (openCameraBtn) {
-    openCameraBtn.addEventListener("click", async function() {
-        try {
-            cameraStream = await navigator.mediaDevices.getUserMedia({ video: true });
-            videoFeed.srcObject = cameraStream;
-            cameraModal.style.display = "flex";
-        } catch (error) {
-            alert("Camera access was not allowed or is unavailable.");
+        if (editing) {
+            saveProfile();
         }
     });
 }
 
+if (uploadInput) {
+    uploadInput.addEventListener("change", function () {
+        const file = this.files[0];
+
+        if (!file) {
+            return;
+        }
+
+        if (!file.type.startsWith("image/")) {
+            showMessage("Please select a valid image.");
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+            const photo = event.target.result;
+
+            user.profilePhoto = photo;
+
+            localStorage.setItem(
+                "activeUser",
+                JSON.stringify(user)
+            );
+
+            localStorage.setItem(
+                `user_${user.email}`,
+                JSON.stringify(user)
+            );
+
+            setProfilePhoto(photo);
+
+            showMessage(
+                "Profile photo updated successfully."
+            );
+        };
+
+        reader.readAsDataURL(file);
+    });
+}
+
+if (openCameraBtn) {
+    openCameraBtn.addEventListener(
+        "click",
+        async function () {
+
+            try {
+                cameraStream =
+                    await navigator.mediaDevices.getUserMedia({
+                        video: true
+                    });
+
+                videoFeed.srcObject = cameraStream;
+
+                cameraModal.style.display = "flex";
+
+            } catch (error) {
+                showMessage(
+                    "Camera access was not allowed or is unavailable."
+                );
+            }
+        }
+    );
+}
+
 if (captureBtn) {
-    captureBtn.addEventListener("click", function() {
-        if (!cameraStream) return;
+    captureBtn.addEventListener("click", function () {
+
+        if (!cameraStream) {
+            return;
+        }
+
         const width = videoFeed.videoWidth;
         const height = videoFeed.videoHeight;
+
         photoCanvas.width = width;
         photoCanvas.height = height;
 
-        const context = photoCanvas.getContext("2d");
-        context.drawImage(videoFeed, 0, 0, width, height);
+        const context =
+            photoCanvas.getContext("2d");
 
-        const photo = photoCanvas.toDataURL("image/jpeg");
+        context.drawImage(
+            videoFeed,
+            0,
+            0,
+            width,
+            height
+        );
+
+        const photo =
+            photoCanvas.toDataURL("image/jpeg");
+
         user.profilePhoto = photo;
 
-        localStorage.setItem("activeUser", JSON.stringify(user));
-        localStorage.setItem(`user_${user.email}`, JSON.stringify(user));
+        localStorage.setItem(
+            "activeUser",
+            JSON.stringify(user)
+        );
+
+        localStorage.setItem(
+            `user_${user.email}`,
+            JSON.stringify(user)
+        );
 
         setProfilePhoto(photo);
+
         closeCamera();
-        
-        successMessage.innerText = "Profile photo updated successfully.";
-        successMessage.style.display = "block";
-        setTimeout(() => { successMessage.style.display = "none"; }, 3000);
+
+        showMessage(
+            "Profile photo updated successfully."
+        );
     });
 }
 
 function closeCamera() {
     if (cameraStream) {
-        cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream
+            .getTracks()
+            .forEach(track => track.stop());
+
         cameraStream = null;
     }
-    if (videoFeed) videoFeed.srcObject = null;
-    if (cameraModal) cameraModal.style.display = "none";
+
+    if (videoFeed) {
+        videoFeed.srcObject = null;
+    }
+
+    if (cameraModal) {
+        cameraModal.style.display = "none";
+    }
 }
 
-if (closeCameraBtn) closeCameraBtn.addEventListener("click", closeCamera);
+if (closeCameraBtn) {
+    closeCameraBtn.addEventListener(
+        "click",
+        closeCamera
+    );
+}
 
 if (cameraModal) {
-    cameraModal.addEventListener("click", function(event) {
-        if (event.target === cameraModal) closeCamera();
-    });
+    cameraModal.addEventListener(
+        "click",
+        function (event) {
+            if (event.target === cameraModal) {
+                closeCamera();
+            }
+        }
+    );
 }
 
-// Theme controls
 function loadTheme() {
-    const savedTheme = localStorage.getItem("theme");
+    const savedTheme =
+        localStorage.getItem("theme");
+
     if (savedTheme === "dark") {
         document.body.classList.add("dark-mode");
-        if (themeToggleBtn) themeToggleBtn.innerText = "Switch to Light Mode";
+
+        themeToggleBtn.textContent =
+            "Switch to Light Mode";
     } else {
         document.body.classList.remove("dark-mode");
-        if (themeToggleBtn) themeToggleBtn.innerText = "Switch to Dark Mode";
+
+        themeToggleBtn.textContent =
+            "Switch to Dark Mode";
     }
 }
 
 if (themeToggleBtn) {
-    themeToggleBtn.addEventListener("click", function() {
-        document.body.classList.toggle("dark-mode");
-        const darkMode = document.body.classList.contains("dark-mode");
-        localStorage.setItem("theme", darkMode ? "dark" : "light");
-        themeToggleBtn.innerText = darkMode ? "Switch to Light Mode" : "Switch to Dark Mode";
-    });
+    themeToggleBtn.addEventListener(
+        "click",
+        function () {
+
+            document.body.classList.toggle(
+                "dark-mode"
+            );
+
+            const darkMode =
+                document.body.classList.contains(
+                    "dark-mode"
+                );
+
+            localStorage.setItem(
+                "theme",
+                darkMode ? "dark" : "light"
+            );
+
+            themeToggleBtn.textContent =
+                darkMode
+                    ? "Switch to Light Mode"
+                    : "Switch to Dark Mode";
+        }
+    );
 }
 
-// Initialize on page load
-document.addEventListener("DOMContentLoaded", () => {
-    displayUser();
-    loadTheme();
-});
+displayUser();
+loadTheme();
