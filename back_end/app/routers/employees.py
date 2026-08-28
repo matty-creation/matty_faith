@@ -41,6 +41,7 @@ def create_employee(
         phone=employee.phone,
         position=employee.position,
         date_joined=employee.date_joined,
+
         password=employee.password,
         department_id=employee.department_id
     )
@@ -82,11 +83,11 @@ def login_employee(
 def get_employees(
     session: Session = Depends(get_session)
 ):
-    employee = session.exec(
+    employees = session.exec(
         select(Employee)
     ).all()
 
-    return employee
+    return employees
 
 
 

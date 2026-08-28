@@ -1,4 +1,3 @@
-
 from sqlmodel import SQLModel
 from pydantic import EmailStr, field_validator
 import re
@@ -20,7 +19,9 @@ class EmployeeCreate(SQLModel):
         value = value.strip()
 
         if not value:
-            raise ValueError("Name cannot be empty.")
+            raise ValueError(
+                "Name cannot be empty."
+            )
 
         if not value[0].isupper():
             raise ValueError(
@@ -99,3 +100,4 @@ class EmployeeResponse(SQLModel):
     position: str
     date_joined: str
     department_id: int
+
