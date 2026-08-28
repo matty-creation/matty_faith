@@ -2,373 +2,134 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>TimeTracker - Sign In</title>
-
-    <link rel="stylesheet" href="../css files/index.css">
-
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/css/intlTelInput.css">
-</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TimeTracker - Sign In</title>
+  <link rel="stylesheet" href="../css files/index.css">
+  <style>
+    .password-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+    .password-wrapper input {
+      width: 100%;
+      padding-right: 38px;
+    }
+    .toggle-password-btn {
+      position: absolute;
+      right: 10px;
+      cursor: pointer;
+      user-select: none;
+      font-size: 1.1rem;
+      color: #666;
+    }
+  </style>
 
 <body>
 
-    <div class="classic-card">
-
-        <div class="brand-header">
-            <h1>TIMETRACKER</h1>
-            <p>Workforce Attendance Management</p>
-        </div>
-
-        <div class="tab-container">
-
-            <button type="button"
-                    class="tab-btn active"
-                    id="loginTab">
-                Sign In
-            </button>
-
-            <button type="button"
-                    class="tab-btn"
-                    id="signupTab">
-                Register
-            </button>
-
-        </div>
-
-        <div id="alertBox" class="alert-msg"></div>
-
-
-        <!-- LOGIN FORM -->
-
-        <form id="loginForm"
-              class="auth-form active"
-              method="post">
-
-            <div class="form-group">
-
-                <label for="login-email">
-                    Email Address
-                </label>
-
-                <input type="email"
-                       id="login-email"
-                       class="classic-input"
-                       placeholder="johndoe@gmail.com"
-                       autocomplete="email"
-                       required>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="login-password">
-                    Password
-                </label>
-
-                <div class="password-input-wrapper">
-
-                    <input type="password"
-                           id="login-password"
-                           class="classic-input"
-                           placeholder="Enter your password"
-                           autocomplete="current-password"
-                           required>
-
-                    <button type="button"
-                            class="password-toggle"
-                            data-target="login-password"
-                            aria-label="Show password">
-                        <span class="eye-icon">👁</span>
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <button type="submit"
-                    class="classic-button">
-                Sign In to Account
-            </button>
-
-
-            <p class="toggle-text">
-                Need an account?
-                <a href="#" id="gotoSignup">
-                    Register here
-                </a>
-            </p>
-
-        </form>
-
-
-        <!-- REGISTER FORM -->
-
-        <form id="signupForm"
-              class="auth-form">
-
-            <div class="form-row">
-
-
-                <div class="form-group">
-
-                    <label for="first-name">
-                        First Name
-                    </label>
-
-                    <input type="text"
-                           id="first-name"
-                           class="classic-input"
-                           placeholder="John"
-                           autocomplete="given-name"
-                           required>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="last-name">
-                        Last Name
-                    </label>
-
-                    <input type="text"
-                           id="last-name"
-                           class="classic-input"
-                           placeholder="Doe"
-                           autocomplete="family-name"
-                           required>
-
-                </div>
-
-            </div>
-
-
-            <div class="form-row">
-
-
-                <!-- PHONE -->
-
-                <div class="form-group">
-
-                    <label for="phone">
-                        Phone Number
-                    </label>
-
-                    <input type="tel"
-                           id="phone"
-                           class="classic-input"
-                           placeholder="111 111 1111"
-                           maxlength="12"
-                           autocomplete="tel"
-                           required>
-
-                    <small id="phone-error"
-                           class="validation-message">
-                    </small>
-
-                </div>
-
-
-                <!-- EMAIL -->
-
-                <div class="form-group">
-
-                    <label for="signup-email">
-                        Email Address
-                    </label>
-
-                    <input type="email"
-                           id="signup-email"
-                           class="classic-input"
-                           placeholder="johndoe@gmail.com"
-                           autocomplete="email"
-                           required>
-
-                    <small id="signup-email-error"
-                           class="validation-message">
-                    </small>
-
-                </div>
-
-            </div>
-
-
-            <!-- ADDRESS -->
-
-            <div class="form-group">
-
-                <label for="address">
-                    Address
-                </label>
-
-                <input type="text"
-                       id="address"
-                       class="classic-input"
-                       placeholder="123 Corporate Ave"
-                       autocomplete="street-address"
-                       required>
-
-            </div>
-
-
-            <div class="form-row">
-
-
-                <!-- PASSWORD -->
-
-                <div class="form-group password-group">
-
-                    <label for="signup-password">
-                        Password
-                    </label>
-
-                    <div class="password-input-wrapper">
-
-                        <input type="password"
-                               id="signup-password"
-                               class="classic-input"
-                               placeholder="Enter your password"
-                               autocomplete="new-password"
-                               required>
-
-                        <button type="button"
-                                class="password-toggle"
-                                data-target="signup-password"
-                                aria-label="Show password">
-
-                            <span class="eye-icon">👁</span>
-
-                        </button>
-
-                    </div>
-
-
-                    <div id="password-requirements"
-                         class="password-requirements">
-
-
-                        <p id="length-check">
-
-                            <span class="check-icon">✓</span>
-
-                            6–20 characters
-
-                        </p>
-
-
-                        <p id="case-check">
-
-                            <span class="check-icon">✓</span>
-
-                            Uppercase and lowercase letters
-
-                        </p>
-
-
-                        <p id="number-check">
-
-                            <span class="check-icon">✓</span>
-
-                            At least one number
-
-                        </p>
-
-
-                        <p id="special-check">
-
-                            <span class="check-icon">✓</span>
-
-                            At least one special character
-
-                        </p>
-
-
-                        <p id="space-check">
-
-                            <span class="check-icon">✓</span>
-
-                            No spaces
-
-                        </p>
-
-                    </div>
-
-
-                    <small id="signup-password-error"
-                           class="validation-message">
-                    </small>
-
-                </div>
-
-
-                <!-- CONFIRM PASSWORD -->
-
-                <div class="form-group password-group">
-
-                    <label for="confirm-password">
-                        Confirm Password
-                    </label>
-
-                    <div class="password-input-wrapper">
-
-                        <input type="password"
-                               id="confirm-password"
-                               class="classic-input"
-                               placeholder="Confirm your password"
-                               autocomplete="new-password"
-                               required>
-
-                        <button type="button"
-                                class="password-toggle"
-                                data-target="confirm-password"
-                                aria-label="Show password">
-
-                            <span class="eye-icon">👁</span>
-
-                        </button>
-
-                    </div>
-
-
-                    <small id="confirm-password-error"
-                           class="validation-message">
-                    </small>
-
-                </div>
-
-            </div>
-
-
-            <button type="submit"
-                    class="classic-button">
-                Create Account
-            </button>
-
-
-            <p class="toggle-text">
-
-                Already registered?
-
-                <a href="#" id="gotoLogin">
-                    Sign in here
-                </a>
-
-            </p>
-
-        </form>
-
+  <div class="classic-card">
+    <div class="brand-header">
+      <h1>TIMETRACKER</h1>
+      <p>Workforce Attendance Management</p>
+    </div>
+    
+    <div class="tab-container">
+      <button type="button" class="tab-btn active" id="loginTab">Sign In</button>
+      <button type="button" class="tab-btn" id="signupTab">Register</button>
     </div>
 
+    <div id="alertBox" class="alert-msg"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js"></script>
+    <!-- LOG IN FORM -->
+    <form id="loginForm" class="auth-form active" method="post">
+      <div class="form-group">
+        <label for="login-email">Email Address</label>
+        <input type="email" id="login-email" class="classic-input" placeholder="name@company.com" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="login-password">Password</label>
+        <div class="password-wrapper">
+          <input type="password" id="login-password" class="classic-input" placeholder="••••••••" required>
+          <span class="toggle-password-btn" id="toggleLoginPassword">👁️</span>
+        </div>
+      </div>
 
-    <script src="../js files/index.js"></script>
+      <button type="submit" class="classic-button">Sign In to Account</button>
 
+      <p class="toggle-text">
+        Need an account? <a id="gotoSignup">Register here</a>
+      </p>
+    </form>
+
+    <!-- SIGN UP FORM -->
+    <form id="signupForm" class="auth-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="first-name">First Name</label>
+          <input type="text" id="first-name" class="classic-input" placeholder="John" required>
+        </div>
+        <div class="form-group">
+          <label for="last-name">Last Name</label>
+          <input type="text" id="last-name" class="classic-input" placeholder="Doe" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <!-- maxlength 12 ensures exact fit for 10 digits + 2 spaces -->
+          <input type="tel" id="phone" class="classic-input" placeholder="111 111 1111" maxlength="12" required>
+        </div>
+        <div class="form-group">
+          <label for="signup-email">Email Address</label>
+          <input type="email" id="signup-email" class="classic-input" placeholder="john@company.com" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="address">Address</label>
+        <input type="text" id="address" class="classic-input" placeholder="123 Corporate Ave" required>
+      </div>
+      <div class="form-row">
+  <div class="form-group">
+    <label for="position">Position</label>
+    <input type="text" id="position" class="classic-input" placeholder="Manager" required>
+  </div>
+
+  <div class="form-group">
+    <label for="date-joined">Date Joined</label>
+    <input type="date" id="date-joined" class="classic-input" required>
+  </div>
+</div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="signup-password">Password</label>
+          <div class="password-wrapper">
+            <input type="password" id="signup-password" class="classic-input" placeholder="••••••••" required>
+            <span class="toggle-password-btn" id="toggleSignupPassword">👁️</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="confirm-password">Confirm Password</label>
+          <div class="password-wrapper">
+            <input type="password" id="confirm-password" class="classic-input" placeholder="••••••••" required>
+            <span class="toggle-password-btn" id="toggleConfirmPassword">👁️</span>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="classic-button">Create Account</button>
+
+      <p class="toggle-text">
+        Already registered? <a id="gotoLogin">Sign in here</a>
+      </p>
+    </form>
+  </div>
+<script src="../js files/index.js" defer></script>
 </body>
 
 </html>

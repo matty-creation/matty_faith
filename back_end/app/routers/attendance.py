@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select
 
-from app.database.session import get_session
-from app.models.attendance import Attendance
-from app.schemas.attendance import AttendanceCreate, AttendanceResponse
+from back_end.app.database.session import get_session
+from back_end.app.models.attendance import Attendance
+from back_end.app.schemas.attendance import AttendanceCreate, AttendanceResponse
 
 
 router = APIRouter(

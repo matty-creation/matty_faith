@@ -1,11 +1,15 @@
 from typing import Optional
-
 from sqlmodel import SQLModel, Field
 
-class Employee(SQLModel, table=True):
-    __tablename__="employees"
 
-    employee_id: Optional[int]= Field(default=None, primary_key=True)
+class Employee(SQLModel, table=True):
+    __tablename__ = "employees"
+
+    employee_id: Optional[int] = Field(
+        default=None,
+        primary_key=True
+    )
+
     first_name: str
     last_name: str
     email: str
@@ -15,6 +19,3 @@ class Employee(SQLModel, table=True):
     password: str
 
     department_id: int = Field(foreign_key="departments.department_id")
-
-    
-

@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select
 
-from app.models.department import Department
-from app.database.session import get_session
-
-from app.schemas.employee import EmployeeResponse
+from back_end.app.models.department import Department
+from back_end.app.database.session import get_session
+from back_end.app.schemas.department import DepartmentResponse
 
 router = APIRouter(
     prefix="/departments",
@@ -13,7 +12,7 @@ router = APIRouter(
 
 
 # CREATE
-@router.post("/", response_model=EmployeeResponse)
+@router.post("/", response_model=DepartmentResponse)
 def create_department(
     department: Department,
     session: Session = Depends(get_session)
@@ -26,7 +25,7 @@ def create_department(
 
 
 # READ ALL
-@router.get("/", response_model=EmployeeResponse)
+@router.get("/", response_model=list[DepartmentResponse])
 def get_departments(
     session: Session = Depends(get_session)
 ):
@@ -36,7 +35,7 @@ def get_departments(
 
 
 # READ ONE
-@router.get("/{department_id}",response_model=EmployeeResponse)
+@router.get("/{department_id}", response_model=DepartmentResponse)
 def get_department(
     department_id: int,
     session: Session = Depends(get_session)
@@ -53,7 +52,7 @@ def get_department(
 
 
 # UPDATE
-@router.put("/{department_id}", response_model=EmployeeResponse)
+@router.put("/{department_id}", response_model=DepartmentResponse)
 def update_department(
     department_id: int,
     updated_department: Department,

@@ -1,0 +1,12 @@
+# Local configuration
+.env
+back_end/.env
+
+# Python-generated files
+__pycache__/
+*.py[cod]
+
+# Local virtual environments
+.venv/
+venv/
+back_end/venv/
