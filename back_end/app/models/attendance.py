@@ -1,7 +1,6 @@
 from datetime import date, time
 from sqlmodel import SQLModel, Field
 
-
 class Attendance(SQLModel, table=True):
     __tablename__ = "attendance"
 
