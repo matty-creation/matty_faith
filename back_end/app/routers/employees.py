@@ -5,8 +5,6 @@ from app.database.session import get_session
 from app.models.employee import Employee
 from app.schemas.employee import EmployeeCreate, EmployeeResponse
 
-from app.models.employee import Employee
-
 router = APIRouter(
     prefix="/employees",
     tags=["Employees"]
@@ -72,13 +70,9 @@ def update_employee(
             detail="Employee not found"
         )
 
-    employee.first_name = employee_data.first_name
-    employee.last_name = employee_data.last_name
+    employee.name = employee_data.name
     employee.email = employee_data.email
     employee.department_id = employee_data.department_id
-    employee.phone = employee_data.phone
-    employee.position = employee_data.position
-    employee.date_joined = employee_data.date_joined
 
     session.add(employee)
     session.commit()
