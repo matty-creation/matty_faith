@@ -1,7 +1,7 @@
 from sqlmodel import SQLModel
 from pydantic import EmailStr, field_validator
 import re
-
+import phonenumbers
 
 class EmployeeCreate(SQLModel):
     first_name: str
@@ -12,6 +12,7 @@ class EmployeeCreate(SQLModel):
     date_joined: str
     password: str
     department_id: int
+    address: str
 
     @field_validator("first_name", "last_name")
     @classmethod
@@ -38,26 +39,30 @@ class EmployeeCreate(SQLModel):
     @field_validator("phone")
     @classmethod
     def validate_phone(cls, value):
-        phone = value.replace(" ", "")
+        try:
+            phone = phonenumbers.parse(value, "TZ")
 
-        if not phone.isdigit():
-            raise ValueError(
-                "Phone number must contain numbers only."
+            if not phonenumbers.is_valid_number(phone):
+                raise ValueError(
+                    "Invalid Tanzanian phone number."
+                )
+
+            return phonenumbers.format_number(
+                phone,
+                phonenumbers.PhoneNumberFormat.E164
             )
 
-        if len(phone) != 10:
+        except phonenumbers.NumberParseException:
             raise ValueError(
-                "Phone number must contain exactly 10 digits."
+                "Invalid phone number."
             )
-
-        return phone
 
     @field_validator("password")
     @classmethod
     def validate_password(cls, value):
-        if len(value) < 6:
+        if len(value) < 8:
             raise ValueError(
-                "Password must be at least 6 characters."
+                "Password must be at least 8 characters."
             )
 
         if not re.search(r"[A-Z]", value):
@@ -100,4 +105,5 @@ class EmployeeResponse(SQLModel):
     position: str
     date_joined: str
     department_id: int
+    address: str
 

@@ -1,10 +1,13 @@
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select
+from app.utils.security import hash_password
 
-from back_end.app.database.session import get_session
-from back_end.app.models.employee import Employee
-from back_end.app.schemas.employee import (
+from app.utils.security import verify_password, create_access_token
+from app.database.session import get_session
+from app.models.employee import Employee
+from app.schemas.auth import TokenResponse
+from app.schemas.employee import (
     EmployeeCreate,
     EmployeeLogin,
     EmployeeResponse
@@ -41,9 +44,9 @@ def create_employee(
         phone=employee.phone,
         position=employee.position,
         date_joined=employee.date_joined,
-
-        password=employee.password,
-        department_id=employee.department_id
+        address=employee.address,
+        department_id=employee.department_id,
+        password=hash_password(employee.password)
     )
 
     session.add(new_employee)
@@ -53,7 +56,7 @@ def create_employee(
     return new_employee
 
 
-@router.post("/login", response_model=EmployeeResponse)
+@router.post("/login", response_model=TokenResponse)
 def login_employee(
     login_data: EmployeeLogin,
     session: Session = Depends(get_session)
@@ -76,8 +79,18 @@ def login_employee(
             detail="Invalid email or password."
         )
 
-    return employee
+    access_token = create_access_token(
+        data={"sub": str(employee.employee_id)}
+    )
 
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "employee_id": employee.employee_id,
+        "first_name": employee.first_name,
+        "last_name": employee.last_name,
+        "email": employee.email
+    }
 
 @router.get("/", response_model=list[EmployeeResponse])
 def get_employees(

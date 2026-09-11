@@ -16,7 +16,7 @@ class Employee(SQLModel, table=True):
     phone: str
     position: str
     date_joined: str
-
+    address: str
     password: str
     department_id: int = Field(foreign_key="departments.department_id")
 

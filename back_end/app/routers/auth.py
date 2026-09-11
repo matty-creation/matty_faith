@@ -1,10 +1,21 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select
 
-from back_end.app.database.session import get_session
-from back_end.app.models.employee import Employee
-from back_end.app.schemas.auth import LoginRequest
-from back_end.app.utils.security import verify_password
+from app.database.session import get_session
+from app.models.employee import Employee
+from app.schemas.auth import LoginRequest
+from app.utils.security import verify_password
+
+from app.schemas.auth import LoginRequest, TokenResponse, CurrentEmployeeResponse
+from app.utils.dependencies import get_current_employee
+
+from app.schemas.auth import (
+    LoginRequest,
+    TokenResponse,
+    CurrentEmployeeResponse
+)
+
+from app.utils.dependencies import get_current_employee
 
 
 router = APIRouter(
@@ -43,3 +54,9 @@ def login(
         "message": "Login successful",
         "employee_id": employee.employee_id
     }
+
+@router.get("/me", response_model=CurrentEmployeeResponse)
+def get_my_profile(
+    current_employee: Employee = Depends(get_current_employee)
+):
+    return current_employee

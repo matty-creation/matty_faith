@@ -1,14 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import SQLModel
-
-from back_end.app.routers.employees import router as employee_router
-from back_end.app.database.connection import engine
-from back_end.app.models.employee import Employee
-from back_end.app.routers.department import router as department_router
-from back_end.app.routers.attendance import router as attendance_router
-from back_end.app.routers.auth import router as auth_router
-from back_end.app.routers.admin import router as admin_router
+from app.routers.employees import router as employee_router
+from app.database.connection import engine
+from app.models.employee import Employee
+from app.routers.department import router as department_router
+from app.routers.attendance import router as attendance_router
+from app.routers.auth import router as auth_router
+from app.routers.admin import router as admin_router
 
 app = FastAPI()
 

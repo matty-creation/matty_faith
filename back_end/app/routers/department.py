@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select
 
-from back_end.app.models.department import Department
-from back_end.app.database.session import get_session
-from back_end.app.schemas.department import DepartmentResponse
+from app.models.department import Department
+from app.database.session import get_session
+from app.schemas.department import DepartmentResponse
 
 router = APIRouter(
     prefix="/departments",

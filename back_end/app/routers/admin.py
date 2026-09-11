@@ -1,11 +1,12 @@
 from fastapi import APIRouter, Depends
 from sqlmodel import Session, select
+from sys.__init__ import d
+from app.database.session import get_session
+from app.models.department import Department
+from app.models.employee import Employee
+from app.schemas.department import DepartmentResponse
+from app.schemas.employee import EmployeeResponse
 
-from back_end.app.database.session import get_session
-from back_end.app.models.department import Department
-from back_end.app.models.employee import Employee
-from back_end.app.schemas.department import DepartmentResponse
-from back_end.app.schemas.employee import EmployeeResponse
 
 router = APIRouter(
     prefix="/admin",
