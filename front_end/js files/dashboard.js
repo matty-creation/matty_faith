@@ -10,15 +10,11 @@ try {
   activeUser = null;
 }
 
-if (
-  activeUser &&
-  activeUser.employee_id &&
-  activeUser.first_name &&
-  activeUser.last_name &&
-  activeUser.email
-) {
-  const firstName = activeUser.first_name;
-  const lastName = activeUser.last_name;
+if (activeUser && activeUser.email) {
+
+
+  const firstName = activeUser.first_name || "";
+  const lastName = activeUser.last_name || "";
 
   const userName = document.getElementById("userName");
   const userAvatar = document.getElementById("userAvatar");

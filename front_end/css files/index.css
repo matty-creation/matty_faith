@@ -216,13 +216,11 @@ body {
 ========================= */
 
 .form-row {
-    display: flex;
-
-    gap: 1rem;
-
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
     width: 100%;
 }
-
 
 /* =========================
    FORM GROUP
@@ -238,6 +236,7 @@ body {
     min-width: 0;
 
     position: relative;
+    width: 100%;
 }
 
 .form-group label {
@@ -263,6 +262,8 @@ body {
 
 .classic-input {
     width: 100%;
+
+    box-sizing: border-box;
 
     padding:
         0.75rem 1rem;
@@ -791,4 +792,10 @@ body {
             0.9rem;
     }
 
+}
+
+@media (max-width: 700px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
 }

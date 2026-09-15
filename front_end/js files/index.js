@@ -28,6 +28,56 @@ const gotoLogin = document.getElementById("gotoLogin");
 const alertBox = document.getElementById("alertBox");
 
 const phoneInput = document.getElementById("phone");
+const departmentSelect =
+    document.getElementById("department");
+
+async function loadDepartments() {
+    if (!departmentSelect) {
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}/departments/`
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                "Failed to load departments"
+            );
+        }
+
+        const departments =
+            await response.json();
+
+        departmentSelect.innerHTML =
+            '<option value="">Select department</option>';
+
+        departments.forEach(function (department) {
+            const option =
+                document.createElement("option");
+
+            option.value =
+                department.department_id;
+
+            option.textContent =
+                department.department_name;
+
+            departmentSelect.appendChild(option);
+        });
+
+    } catch (error) {
+        console.error(
+            "Department loading error:",
+            error
+        );
+
+        departmentSelect.innerHTML =
+            '<option value="">Unable to load departments</option>';
+    }
+}
+
+loadDepartments();
 
 function hideAlert() {
     if (alertBox) {
@@ -325,6 +375,9 @@ if (signupForm) {
             const positionInput =
                 document.getElementById("position");
 
+            const departmentSelect =
+                document.getElementById("department");    
+
             const dateJoinedInput =
                 document.getElementById("date-joined");
 
@@ -354,6 +407,9 @@ if (signupForm) {
             const position =
                 positionInput.value.trim();
 
+            const departmentId =
+                Number(departmentSelect.value);
+
             const dateJoined =
                 dateJoinedInput.value;
 
@@ -375,7 +431,8 @@ if (signupForm) {
                 !position ||
                 !dateJoined ||
                 !password ||
-                !confirmPassword
+                !confirmPassword ||
+                !departmentId
             ) {
                 showAlert(
                     "Please fill in all required fields."
@@ -441,7 +498,9 @@ if (signupForm) {
                 phone: phoneNumber,
                 position: position,
                 date_joined: dateJoined,
-                password: password
+                password: password,
+                department_id: departmentId,
+                address: address
             };
 
             try {
@@ -458,6 +517,8 @@ if (signupForm) {
                         body: JSON.stringify(payload)
                     }
                 );
+
+                console.log(payload);
 
                 const data =
                     await response.json();
@@ -479,9 +540,8 @@ if (signupForm) {
                 );
 
                 setTimeout(function () {
-                    window.location.href =
-                        "dashboard.html";
-                }, 800);
+                        showLogin();
+                    }, 800);
 
             } catch (error) {
                 console.error(

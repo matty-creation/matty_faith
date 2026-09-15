@@ -2,7 +2,7 @@ from pydantic import BaseModel , EmailStr
 
 
 class LoginRequest(BaseModel):
-    email: Emailstr
+    email: EmailStr
     password: str
 
 
@@ -19,7 +19,7 @@ class CurrentEmployeeResponse(BaseModel):
     employee_id: int
     first_name: str
     last_name: str
-    email: Emailstr
+    email: EmailStr
     phone: str
     position: str
     address: str

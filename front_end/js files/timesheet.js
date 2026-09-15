@@ -1,4 +1,3 @@
-
 let activeUser = null;
 
 try {
@@ -11,29 +10,30 @@ try {
   activeUser = null;
 }
 
-if (
-  activeUser &&
-  activeUser.employee_id &&
-  activeUser.first_name &&
-  activeUser.last_name &&
-  activeUser.email
-) {
-  const firstName = activeUser.first_name;
-  const lastName = activeUser.last_name;
+if (activeUser && activeUser.email) {
+
+  const firstName = activeUser.first_name || "";
+  const lastName = activeUser.last_name || "";
 
   const userName = document.getElementById("userName");
   const userAvatar = document.getElementById("userAvatar");
 
   if (userName) {
-    userName.textContent = `${firstName} ${lastName}`.trim();
+    userName.textContent = `${firstName} ${lastName}`.trim() || activeUser.email;
   }
 
   if (userAvatar) {
-      const firstInitial = firstName.charAt(0).toUpperCase();
-    const lastInitial = lastName.charAt(0).toUpperCase();
+    const firstInitial = firstName
+      ? firstName.charAt(0).toUpperCase()
+      : activeUser.email.charAt(0).toUpperCase();
+
+    const lastInitial = lastName
+      ? lastName.charAt(0).toUpperCase()
+      : "";
 
     userAvatar.textContent = `${firstInitial}${lastInitial}`;
   }
+
 } else {
   localStorage.removeItem("activeUser");
   window.location.href = "index.html";

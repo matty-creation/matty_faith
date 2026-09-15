@@ -6,7 +6,7 @@ from app.models.employee import Employee
 from app.schemas.auth import LoginRequest
 from app.utils.security import verify_password
 
-from app.schemas.auth import LoginRequest, TokenResponse, CurrentEmployeeResponse
+from app.schemas.auth import LoginRequest, TokenResponse
 from app.utils.dependencies import get_current_employee
 
 from app.schemas.auth import (
@@ -16,7 +16,6 @@ from app.schemas.auth import (
 )
 
 from app.utils.dependencies import get_current_employee
-
 
 router = APIRouter(
     prefix="/auth",
