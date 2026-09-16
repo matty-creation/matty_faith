@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TimeTracker - Admin</title>
+  <link rel="stylesheet" href="../css files/admin.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">TIMETRACKER</div>
+    <nav class="nav-list" aria-label="Main navigation">
+      <a href="dashboard.html" class="nav-item">Attendance Clock</a>
+      <a href="timesheet.html" class="nav-item">My Timesheet</a>
+      <a href="profile.html" class="nav-item">Profile</a>
+      <a href="admin.html" class="nav-item active">Admin</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <header class="top-bar">
+      <div><p class="eyebrow">WORKFORCE CONTROL</p><h1>People & departments</h1></div>
+      <div class="user-profile"><span id="userName">Admin</span><div class="avatar" id="userAvatar">A</div><button id="logoutBtn" class="logout-btn" type="button">Sign out</button></div>
+    </header>
+
+    <section class="summary-grid" aria-label="Workforce summary">
+      <article class="summary-item"><span class="summary-label">Employees</span><strong id="employeeCount">0</strong></article>
+      <article class="summary-item"><span class="summary-label">Departments</span><strong id="departmentCount">0</strong></article>
+      <article class="summary-item"><span class="summary-label">Latest joiner</span><strong id="latestJoiner">-</strong></article>
+    </section>
+
+    <section class="table-panel">
+      <div class="panel-heading"><div><p class="eyebrow">DIRECTORY</p><h2>Employee records</h2></div><button id="refreshBtn" class="secondary-btn" type="button">Refresh</button></div>
+      <div id="alertBox" class="alert" role="status"></div>
+      <div class="table-wrap">
+        <table class="employee-table">
+          <thead><tr><th>Name</th><th>Contact</th><th>Position</th><th>Department</th><th>Joined</th><th>Actions</th></tr></thead>
+          <tbody id="employeeRows"></tbody>
+        </table>
+      </div>
+      <p id="emptyState" class="empty-state">No employee records found.</p>
+    </section>
+  </main>
+  <script src="../js files/admin.js"></script>
+</body>
+</html>

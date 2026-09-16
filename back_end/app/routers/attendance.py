@@ -18,6 +18,19 @@ def create_attendance(
     attendance: AttendanceCreate,
     session: Session = Depends(get_session)
 ):
+    existing_attendance = session.exec(
+        select(Attendance).where(
+            Attendance.employee_id == attendance.employee_id,
+            Attendance.attendance_date == attendance.attendance_date
+        )
+    ).first()
+
+    if existing_attendance:
+        raise HTTPException(
+            status_code=400,
+            detail="Attendance has already been recorded for this day."
+        )
+
     new_attendance = Attendance(
         employee_id=attendance.employee_id,
         attendance_date=attendance.attendance_date,

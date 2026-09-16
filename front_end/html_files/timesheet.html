@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TimeTracker - Employee Timesheet</title>
+  <link rel="stylesheet" href="../css files/timesheet.css">
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="brand">TIMETRACKER</div>
+    <ul class="nav-list">
+      <a href="dashboard.html" class="nav-item">Attendance Clock</a>
+      <a href="timesheet.html" class="nav-item active">My Timesheet</a>
+    </ul>
+  </aside>
+
+  <main class="main-content">
+    
+    <header class="top-bar">
+      <h1>Detailed Timesheet</h1>
+      <div class="user-profile">
+        <span id="userName">User</span>
+        <div class="avatar" id="userAvatar">U</div>
+        <a id="logoutBtn" class="logout-btn" style="margin-left: 10px;">Sign Out</a>
+      </div>
+    </header>
+
+    <!-- Summary Metrics -->
+    <section class="summary-grid">
+      <div class="summary-card">
+        <h3>Total Hours Recorded</h3>
+        <div class="val" id="totalHoursVal">0h 0m</div>
+      </div>
+      <div class="summary-card">
+        <h3>Total Shifts Worked</h3>
+        <div class="val" id="totalShiftsVal">0</div>
+      </div>
+      <div class="summary-card">
+        <h3>Avg. Shift Duration</h3>
+        <div class="val" id="avgShiftVal">0h 0m</div>
+      </div>
+    </section>
+
+    <!-- Timesheet Table -->
+    <section class="timesheet-section">
+      <div class="timesheet-header">
+        <h2>Shift Ledger</h2>
+        <select id="filterSelect" class="classic-select">
+          <option value="all">All Dates</option>
+        </select>
+      </div>
+
+      <table class="timesheet-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Clock In</th>
+            <th>Clock Out</th>
+            <th>Total Duration</th>
+          </tr>
+        </thead>
+        <tbody id="timesheetBody">
+          <!-- Dynamic Log Entries -->
+        </tbody>
+      </table>
+      <div id="emptyMsg" class="empty-state" style="display: none;">No timesheet data available.</div>
+    </section>
+
+  </main>
+  <script src="../js files/timesheet.js"></script>
+</body>
+</html>
