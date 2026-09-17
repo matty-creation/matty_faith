@@ -107,3 +107,15 @@ class EmployeeResponse(SQLModel):
     department_id: int
     address: str
 
+
+class EmployeeUpdate(SQLModel):
+    first_name: str
+    last_name: str
+    email: EmailStr
+    phone: str
+    position: str
+    date_joined: str
+    password: str | None = None
+    department_id: int
+    address: str
+

@@ -61,26 +61,41 @@ def login_employee(
     login_data: EmployeeLogin,
     session: Session = Depends(get_session)
 ):
+    # Find employee by email
     employee = session.exec(
         select(Employee).where(
             Employee.email == login_data.email
         )
     ).first()
 
+    # Employee does not exist
     if not employee:
         raise HTTPException(
             status_code=401,
             detail="Invalid email or password."
         )
 
-    if employee.password != login_data.password:
+    # Verify password
+    try:
+        password_is_valid = verify_password(
+            login_data.password,
+            employee.password
+        )
+    except Exception:
+        password_is_valid = False
+
+    # Password is incorrect
+    if not password_is_valid:
         raise HTTPException(
             status_code=401,
             detail="Invalid email or password."
         )
 
+    # Create JWT token
     access_token = create_access_token(
-        data={"sub": str(employee.employee_id)}
+        data={
+            "sub": str(employee.employee_id)
+        }
     )
 
     return {
@@ -89,8 +104,11 @@ def login_employee(
         "employee_id": employee.employee_id,
         "first_name": employee.first_name,
         "last_name": employee.last_name,
-        "email": employee.email
+        "email": employee.email,
+        "position": employee.position
     }
+
+
 
 @router.get("/", response_model=list[EmployeeResponse])
 def get_employees(

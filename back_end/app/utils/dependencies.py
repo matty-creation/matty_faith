@@ -23,6 +23,13 @@ def get_current_employee(
     try:
         payload = decode_access_token(token)
         employee_id = payload.get("sub")
+        if employee_id is None:
+            raise credentials_exception
+        employee_id = int(employee_id)
+    except (Exception, ValueError):
+        raise credentials_exception
+        payload = decode_access_token(token)
+        employee_id = payload.get("sub")
 
         if employee_id is None:
             raise credentials_exception
@@ -41,4 +48,14 @@ def get_current_employee(
     if employee is None:
         raise credentials_exception
 
+    return employee
+
+
+def require_admin(employee: Employee = Depends(get_current_employee)):
+    if employee.position.strip().lower() not in {
+        "admin",
+        "administrator",
+        "system administrator",
+    }:
+        raise HTTPException(status_code=403, detail="Administrator access is required")
     return employee

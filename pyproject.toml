@@ -8,6 +8,7 @@ dependencies = [
     "myapplication>=0.1.0",
     "python-dotenv>=1.2.3",
     "sqlmodel>=0.0.39",
+    "pymysql>=1.1.0",
     "phonenumberslite>=9.0.38",
     "pydantic>=2.13.4",
     "pwdlib>=0.3.1",

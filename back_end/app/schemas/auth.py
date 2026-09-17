@@ -13,6 +13,7 @@ class TokenResponse(BaseModel):
     first_name: str
     last_name: str
     email: str
+    position: str
 
 
 class CurrentEmployeeResponse(BaseModel):

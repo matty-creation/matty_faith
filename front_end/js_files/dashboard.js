@@ -30,6 +30,23 @@ if (activeUser && activeUser.email) {
 
     userAvatar.textContent = `${firstInitial}${lastInitial}`;
   }
+
+  const adminNav = document.getElementById("adminNav");
+  const adminPositions = [
+    "admin",
+    "administrator",
+    "system administrator"
+  ];
+
+  if (
+    adminNav &&
+    adminPositions.includes((activeUser.position || "").toLowerCase().trim())
+  ) {
+    adminNav.hidden = false;
+    adminNav.href = window.location.hostname === "localhost"
+      ? "http://localhost:5173/"
+      : "/admin/";
+  }
 } else {
   localStorage.removeItem("activeUser");
   window.location.href = "index.html";
